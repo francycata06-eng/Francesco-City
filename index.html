@@ -20,6 +20,22 @@ h2{margin:18px 0 14px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap
 .line.bus.active{border-left:6px solid #16834a}
 .badge.bus{background:#16834a;color:white;border-radius:12px;padding:8px 12px;font-weight:800}
 
+/* Linee Notturne (Bianche con bordo #351c75) */
+.line.night{background:white;color:#18201c}
+.line.night.active{border-left:6px solid #351c75}
+.badge.night{background:#351c75;color:white;border-radius:12px;padding:8px 12px;font-weight:800}
+
+/* Sezione divisoria per le notturne */
+.section-divider {
+  grid-column: 1 / -1;
+  margin: 10px 0 2px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #4b5563;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 6px;
+}
+
 /* Tram (Arancione) */
 .line.tram.active{border-left:6px solid #ff4c00}
 .badge.tram{background:#ff4c00;color:white;border-radius:12px;padding:8px 12px;font-weight:800}
@@ -81,6 +97,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 }
 .time-btn:hover { background:#e2e8e4; }
 .time-btn.selected-bus { background:#16834a; color:white; }
+.time-btn.selected-night { background:#351c75; color:white; }
 .time-btn.selected-tram { background:#ff4c00; color:white; }
 
 /* Pulsanti controllo direzione e tipo giorno */
@@ -95,6 +112,10 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
   font-weight: 700;
   cursor: pointer;
   font-size: 14px;
+}
+.control-btn.night-btn {
+  border-color: #351c75;
+  color: #351c75;
 }
 .control-btn.tram-btn {
   border-color: #ff4c00;
@@ -135,7 +156,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <body>
 <header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
 <main>
-<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 6</b>, <b>Linea 18</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 6</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
 
 <section id="home">
 <h2>Linee autobus</h2>
@@ -143,6 +164,35 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 
 <h2>Linee Tram</h2>
 <div class="grid" id="tram-lines"></div>
+</section>
+
+<!-- SEZIONE LINEA 1 -->
+<section id="line1" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 1</h2><div>Circolare Sardella</div></div><div class="badge bus">1</div></div>
+
+<div class="line-content">
+  <div>
+    <h3 id="line1-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line1-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-1" class="switch-btn active" onclick="setLine1DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-1" class="switch-btn" onclick="setLine1DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line1-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 1</h4>
+      <span>Servizio circolare attivo da capolinea Sardella. Seleziona una fascia oraria Feriale o Festiva per verificare i passaggi alle fermate intermedie.</span>
+    </div>
+  </div>
+</div>
+</div>
 </section>
 
 <!-- SEZIONE LINEA 18 -->
@@ -161,7 +211,6 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
     <div id="line18-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
     
-    <!-- Bacheca avvisi Linea 18 -->
     <div class="notice">
       <h4>📌 Bacheca notizie Linea 18</h4>
       <span>Seleziona un orario in alto per consultare il dettaglio delle fermate. Servizio regolare su tutta la linea.</span>
@@ -192,10 +241,35 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
     <div id="line6-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
     
-    <!-- Bacheca avvisi Linea 6 -->
     <div class="notice">
       <h4>📌 Bacheca notizie Linea 6</h4>
       <span>Seleziona un orario per vedere le fermate. Ricorda di verificare il calendario Feriale o Festivo prima di consultare gli orari.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 1N -->
+<section id="line1N" class="hidden">
+<button class="back" onclick="showHome()" style="color:#351c75">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 1N</h2><div id="line1N-subtitle">Sardella ➔ Alessandri</div></div><div class="badge night">1N</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn night-btn" onclick="toggleLine1NDirection()">🔄 Cambia Direzione</button>
+    <h3 id="line1N-selected-title" style="margin:0 0 10px; font-size:16px; color:#351c75;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line1N-stops"></tbody></table>
+  </div>
+  <div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line1N-departures" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px"></div>
+    
+    <div class="notice" style="background:#f2eff9; border-color:#d5cde7; color:#351c75;">
+      <h4>📌 Bacheca notizie Linea 1N</h4>
+      <span>Servizio notturno attivo. Controlla le partenze coordinate dai capolinea di Sardella e Alessandri.</span>
     </div>
   </div>
 </div>
@@ -219,7 +293,6 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
     <div id="t2-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
     
-    <!-- Bacheca avvisi Tram T2 -->
     <div class="notice">
       <h4>📌 Bacheca notizie Tram T2</h4>
       <span>Seleziona un orario per la tabella passaggi. Attenzione alle partenze serali da Ple. Scott a cadenza 35 minuti fino alle 00:25.</span>
@@ -245,7 +318,6 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
     <div id="t3-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
     
-    <!-- Bacheca avvisi Tram T3 -->
     <div class="notice">
       <h4>📌 Bacheca notizie Tram T3</h4>
       <span>Linea circolare con partenze cadenzate ogni 30 minuti da Stab. De Felice. Tocca una partenza per consultare gli orari.</span>
@@ -284,6 +356,87 @@ function generateCadence(start, end, intervalMins) {
     curr += intervalMins;
   }
   return result;
+}
+
+/* ================= LINEA 1 ================= */
+const line1StopsData = [
+  { name: "Sardella", offset: 0 },
+  { name: "Russo/Baroncelli", offset: 3 },
+  { name: "Di Biagio/Russo", offset: 6 },
+  { name: "Pellegrino/Di Biagio", offset: 9 },
+  { name: "Cirillo", offset: 11 },
+  { name: "Novelli/Trapani", offset: 13 },
+  { name: "Novelli/Corbo", offset: 14 },
+  { name: "Bulgarelli", offset: 17 },
+  { name: "Vicentini/Bulgarelli", offset: 19 },
+  { name: "Novelli/Vicentini", offset: 21 },
+  { name: "Alessandri", offset: 23 },
+  { name: "Novelli/Vicentini", offset: 25 },
+  { name: "Novelli/Corbo", offset: 28 },
+  { name: "Novelli/Trapani", offset: 30 },
+  { name: "Cirillo", offset: 32 },
+  { name: "Pellegrino/Di Biagio", offset: 35 },
+  { name: "Di Biagio/Russo", offset: 39 },
+  { name: "Russo/Baroncelli", offset: 44 },
+  { name: "Sardella", offset: 48 }
+];
+
+const line1Orari = {
+  feriale: [
+    "06:00", "06:50", "07:45",
+    "08:40", "09:40", "10:40",
+    "11:35", "12:30", "13:30",
+    "14:30", "15:25", "16:20",
+    "17:15", "18:15", "19:15",
+    "20:10", "21:05", "22:00",
+    "22:50", "23:30"
+  ],
+  festivo: [
+    "06:00", "07:00", "08:00",
+    "09:10", "10:20", "11:30",
+    "12:30", "13:40", "14:50",
+    "15:55", "16:50", "17:45",
+    "18:45", "19:45", "20:40",
+    "21:35", "22:25", "23:15"
+  ]
+};
+
+let line1DayType = "feriale";
+
+function renderLine1Departures() {
+  const depContainer = document.getElementById("line1-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line1Orari[line1DayType];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip1(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip1(currentDepartures[0]);
+  }
+}
+
+function loadTrip1(startTime) {
+  document.getElementById("line1-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line1-stops").innerHTML = line1StopsData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line1-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function setLine1DayType(type) {
+  line1DayType = type;
+  document.getElementById("btn-feriale-1").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-1").classList.toggle("active", type === 'festivo');
+  renderLine1Departures();
 }
 
 /* ================= LINEA 18 ================= */
@@ -388,6 +541,82 @@ function setLine6DayType(type) {
   document.getElementById("btn-feriale").classList.toggle("active", type === 'feriale');
   document.getElementById("btn-festivo").classList.toggle("active", type === 'festivo');
   renderLine6Departures();
+}
+
+/* ================= LINEA 1N ================= */
+const line1NDataAndata = [
+  { name: "Sardella", offset: 0 },
+  { name: "Russo/Baroncelli", offset: 3 },
+  { name: "Cirulli/Russo", offset: 8 },
+  { name: "Faustini/Sabatini", offset: 11 },
+  { name: "Casorelli", offset: 16 },
+  { name: "Loveri", offset: 21 },
+  { name: "Carrubba/Zummo", offset: 23 },
+  { name: "Corbo/Crifò", offset: 26 },
+  { name: "Parente/Pucello", offset: 30 },
+  { name: "Parente", offset: 30 },
+  { name: "Scala/Parente", offset: 35 },
+  { name: "Scala/SS. Ascolese", offset: 39 },
+  { name: "Alessandri", offset: 42 }
+];
+
+const line1NDataRitorno = [];
+let currentOffset1N = 0;
+const reversedRaw1N = [...line1NDataAndata].reverse().filter(s => s.name !== "Parente");
+
+for (let i = 0; i < reversedRaw1N.length; i++) {
+  if (i === 0) {
+    line1NDataRitorno.push({ name: reversedRaw1N[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line1NDataAndata.find(s => s.name === reversedRaw1N[i-1].name).offset;
+    const currOriginalOffset = line1NDataAndata.find(s => s.name === reversedRaw1N[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset1N += diff;
+    line1NDataRitorno.push({ name: reversedRaw1N[i].name, offset: currentOffset1N });
+  }
+}
+
+const line1NOrari = {
+  andata: ["00:10", "01:45", "03:15", "04:45"],
+  ritorno: ["01:00", "02:30", "04:00", "05:25"]
+};
+
+let line1NDirection = "andata";
+
+function renderLine1NDepartures() {
+  const depContainer = document.getElementById("line1N-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line1NOrari[line1NDirection];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip1N(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip1N(currentDepartures[0]);
+  }
+}
+
+function loadTrip1N(startTime) {
+  const currentData = line1NDirection === "andata" ? line1NDataAndata : line1NDataRitorno;
+  document.getElementById("line1N-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line1N-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line1N-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-night", btn.innerText === startTime);
+  });
+}
+
+function toggleLine1NDirection() {
+  line1NDirection = (line1NDirection === "andata") ? "ritorno" : "andata";
+  document.getElementById("line1N-subtitle").innerText = line1NDirection === "andata" ? "Sardella ➔ Alessandri" : "Alessandri ➔ Sardella";
+  renderLine1NDepartures();
 }
 
 /* ================= TRAM T2 ================= */
@@ -515,19 +744,41 @@ function renderT3Departures() {
 }
 
 /* ================= INIZIALIZZAZIONE HOME ================= */
-// Render Bus
+// Render Bus (Linee 1-19)
 const busContainer = document.getElementById("bus-lines");
 for(let i=1; i<=19; i++){
   const b = document.createElement("button");
-  const isActive = (i === 6 || i === 18);
+  const isActive = (i === 1 || i === 6 || i === 18);
   b.className = "line bus" + (isActive ? " active" : "");
   b.innerHTML = `Linea ${i}<span>${isActive ? "Clicca per vedere fermate e orari" : "In costruzione"}</span>`;
   b.onclick = () => { 
-    if(i === 18) showLine18();
+    if(i === 1) showLine1();
     if(i === 6) showLine6();
+    if(i === 18) showLine18();
   };
   busContainer.appendChild(b);
 }
+
+// Divisore e Linee Notturne alla fine della sezione bus
+const divider = document.createElement("div");
+divider.className = "section-divider";
+divider.innerText = "Linee Notturne";
+busContainer.appendChild(divider);
+
+// Linea 1N (attiva)
+const b1N = document.createElement("button");
+b1N.className = "line night active";
+b1N.innerHTML = `Linea 1N<span>Clicca per vedere fermate e orari</span>`;
+b1N.onclick = () => showLine1N();
+busContainer.appendChild(b1N);
+
+// Linee 5N e 9N (in costruzione)
+["5N", "9N"].forEach(nightLine => {
+  const b = document.createElement("button");
+  b.className = "line night";
+  b.innerHTML = `Linea ${nightLine}<span>In costruzione</span>`;
+  busContainer.appendChild(b);
+});
 
 // Render Tram
 const tramContainer = document.getElementById("tram-lines");
@@ -548,14 +799,24 @@ for(let i=1; i<=3; i++){
   tramContainer.appendChild(b);
 }
 
-function showLine18(){
+function showLine1(){
   document.getElementById("home").classList.add("hidden");
-  document.getElementById("line18").classList.remove("hidden");
+  document.getElementById("line1").classList.remove("hidden");
 }
 
 function showLine6(){
   document.getElementById("home").classList.add("hidden");
   document.getElementById("line6").classList.remove("hidden");
+}
+
+function showLine18(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line18").classList.remove("hidden");
+}
+
+function showLine1N(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line1N").classList.remove("hidden");
 }
 
 function showTramT2(){
@@ -569,14 +830,16 @@ function showTramT3(){
 }
 
 function showHome(){
-  document.getElementById("line18").classList.add("hidden");
+  document.getElementById("line1").classList.add("hidden");
   document.getElementById("line6").classList.add("hidden");
+  document.getElementById("line18").classList.add("hidden");
+  document.getElementById("line1N").classList.add("hidden");
   document.getElementById("tramT2").classList.add("hidden");
   document.getElementById("tramT3").classList.add("hidden");
   document.getElementById("home").classList.remove("hidden");
 }
 
-// Inizializzazione partenze Linea 18
+// Inizializzazioni partenze
 const dep18 = document.getElementById("line18-departures");
 line18Departures.forEach(time => {
   const btn = document.createElement("div");
@@ -587,8 +850,10 @@ line18Departures.forEach(time => {
 });
 
 // Caricamenti iniziali
+renderLine1Departures();
 loadTrip18(line18Departures[0]);
 renderLine6Departures();
+renderLine1NDepartures();
 renderT2Departures();
 renderT3Departures();
 </script>
