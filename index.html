@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#e6eae8">
+<title>Trasporti di Francesco City</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f3f5f4;color:#18201c}
+header{background:#e6eae8;color:#18201c;padding:28px 20px 24px;box-shadow:0 2px 10px #0001;border-bottom:1px solid #d0d8d4}
+header h1{margin:0;font-size:28px} header p{margin:6px 0 0;opacity:.75}
+main{max-width:960px;margin:auto;padding:20px}
+h2{margin:18px 0 14px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+
+/* Stili generici per le linee */
+.line{border:0;border-radius:16px;background:white;padding:18px;text-align:left;font-size:18px;font-weight:700;box-shadow:0 2px 8px #0001;cursor:pointer}
+.line span{display:block;font-size:13px;font-weight:500;color:#68736d;margin-top:4px}
+
+/* Bus (Verde) */
+.line.bus.active{border-left:6px solid #16834a}
+.badge.bus{background:#16834a;color:white;border-radius:12px;padding:8px 12px;font-weight:800}
+
+/* Tram (Arancione) */
+.line.tram.active{border-left:6px solid #ff4c00}
+.badge.tram{background:#ff4c00;color:white;border-radius:12px;padding:8px 12px;font-weight:800}
+
+/* Tram T1 soppressa */
+.line.suppressed {
+  background: #eaeaea;
+  color: #8c8c8c;
+  cursor: not-allowed;
+  border-left: 6px solid #b0b0b0 !important;
+}
+.line.suppressed span { color: #9e9e9e; }
+
+button.back{border:0;background:transparent;font-size:16px;padding:8px 0 14px;cursor:pointer;color:#16834a;font-weight:700}
+.card{background:white;border-radius:18px;padding:20px;box-shadow:0 2px 10px #0001}
+.route{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid #e6eae7}th:last-child,td:last-child{text-align:right}
+
+/* Bacheca avvisi giallina */
+.notice{
+  margin-top:20px;
+  padding:14px;
+  border-radius:12px;
+  background:#fff7d6;
+  border: 1px solid #f2e394;
+  color:#6a5700;
+  font-size:13px;
+  line-height: 1.4;
+}
+.notice h4 {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hidden{display:none}
+
+/* Layout a due colonne */
+.line-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Stili per le pillole degli orari di partenza */
+.time-btn {
+  background:#f3f5f4;
+  border:2px solid transparent;
+  border-radius:10px;
+  padding:9px;
+  text-align:center;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  font-size: 14px;
+}
+.time-btn:hover { background:#e2e8e4; }
+.time-btn.selected-bus { background:#16834a; color:white; }
+.time-btn.selected-tram { background:#ff4c00; color:white; }
+
+/* Pulsanti controllo direzione e tipo giorno */
+.control-btn {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #16834a;
+  background: #f3f5f4;
+  color: #16834a;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+}
+.control-btn.tram-btn {
+  border-color: #ff4c00;
+  color: #ff4c00;
+}
+.control-btn:hover { background: #e2e8e4; }
+
+.switch-container {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+.switch-btn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #16834a;
+  background: #f3f5f4;
+  color: #16834a;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+}
+.switch-btn.active {
+  background: #16834a;
+  color: white;
+}
+
+@media(max-width:680px){
+  .line-content{ grid-template-columns: 1fr; }
+  .grid{ grid-template-columns: 1fr 1fr; }
+  main{ padding:16px; }
+  header h1{ font-size:24px; }
+}
+</style>
+</head>
+<body>
+<header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
+<main>
+<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 6</b>, <b>Linea 18</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+
+<section id="home">
+<h2>Linee autobus</h2>
+<div class="grid" id="bus-lines"></div>
+
+<h2>Linee Tram</h2>
+<div class="grid" id="tram-lines"></div>
+</section>
+
+<!-- SEZIONE LINEA 18 -->
+<section id="line18" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 18</h2><div>Circolare Cala di Bratton</div></div><div class="badge bus">18</div></div>
+
+<div class="line-content">
+  <div>
+    <h3 id="line18-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line18-stops"></tbody></table>
+  </div>
+  <div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line18-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <!-- Bacheca avvisi Linea 18 -->
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 18</h4>
+      <span>Seleziona un orario in alto per consultare il dettaglio delle fermate. Servizio regolare su tutta la linea.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 6 -->
+<section id="line6" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 6</h2><div id="line6-subtitle">Loveri ➔ P.za Longo</div></div><div class="badge bus">6</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn" onclick="toggleLine6Direction()">🔄 Cambia Direzione</button>
+    <h3 id="line6-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line6-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale" class="switch-btn active" onclick="setLine6DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo" class="switch-btn" onclick="setLine6DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line6-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <!-- Bacheca avvisi Linea 6 -->
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 6</h4>
+      <span>Seleziona un orario per vedere le fermate. Ricorda di verificare il calendario Feriale o Festivo prima di consultare gli orari.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE TRAM T2 -->
+<section id="tramT2" class="hidden">
+<button class="back" onclick="showHome()" style="color:#ff4c00">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Tram T2</h2><div id="t2-subtitle">Furuya (MB) ➔ Ple. Scott</div></div><div class="badge tram">T2</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn tram-btn" onclick="toggleT2Direction()">🔄 Cambia Direzione</button>
+    <h3 id="t2-selected-title" style="margin:0 0 10px; font-size:16px; color:#ff4c00;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="t2-stops"></tbody></table>
+  </div>
+  <div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="t2-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <!-- Bacheca avvisi Tram T2 -->
+    <div class="notice">
+      <h4>📌 Bacheca notizie Tram T2</h4>
+      <span>Seleziona un orario per la tabella passaggi. Attenzione alle partenze serali da Ple. Scott a cadenza 35 minuti fino alle 00:25.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE TRAM T3 -->
+<section id="tramT3" class="hidden">
+<button class="back" onclick="showHome()" style="color:#ff4c00">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Tram T3</h2><div>Circolare Stab. De Felice</div></div><div class="badge tram">T3</div></div>
+
+<div class="line-content">
+  <div>
+    <h3 id="t3-selected-title" style="margin:0 0 10px; font-size:16px; color:#ff4c00;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="t3-stops"></tbody></table>
+  </div>
+  <div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="t3-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <!-- Bacheca avvisi Tram T3 -->
+    <div class="notice">
+      <h4>📌 Bacheca notizie Tram T3</h4>
+      <span>Linea circolare con partenze cadenzate ogni 30 minuti da Stab. De Felice. Tocca una partenza per consultare gli orari.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+</main>
+
+<script>
+// Helper orari
+function timeToMins(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+
+function minsToTime(m) {
+  const normalized = (m % 1440 + 1440) % 1440;
+  const h = Math.floor(normalized / 60).toString().padStart(2, '0');
+  const min = (normalized % 60).toString().padStart(2, '0');
+  return `${h}:${min}`;
+}
+
+function addMinutes(timeStr, minsToAdd) {
+  return minsToTime(timeToMins(timeStr) + minsToAdd);
+}
+
+function generateCadence(start, end, intervalMins) {
+  const result = [];
+  let curr = timeToMins(start);
+  let target = timeToMins(end);
+  if (target < curr) target += 1440;
+  while (curr <= target) {
+    result.push(minsToTime(curr));
+    curr += intervalMins;
+  }
+  return result;
+}
+
+/* ================= LINEA 18 ================= */
+const line18Offsets = [0, 7, 12, 19, 26, 37, 45, 49, 58];
+const line18Stops = ["Cala di Bratton","Levinson","Levinson/Filippelli","Martin/Filippelli","Flenderson/Wallace","Martin/Filippelli","Levinson","Levinson/Filippelli","Cala di Bratton"];
+const line18Departures = ["00:00","01:10","02:20","03:30","04:40","05:50","07:00","08:10","09:20","10:30","11:40","12:50","14:00","15:10","16:20","17:30","18:40","20:00","21:20","22:40"];
+
+function loadTrip18(startTime) {
+  document.getElementById("line18-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line18-stops").innerHTML = line18Stops.map((s, i) => 
+    `<tr><td>${s}</td><td><b>${addMinutes(startTime, line18Offsets[i])}</b></td></tr>`
+  ).join("");
+  document.querySelectorAll("#line18-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+/* ================= LINEA 6 ================= */
+const line6DataAndata = [
+  { name: "Loveri", offset: 0 },
+  { name: "Parca", offset: 7 },
+  { name: "Catapano/Prati Fioriti", offset: 14 },
+  { name: "Catapano/Salomone", offset: 17 },
+  { name: "Vallecalma", offset: 24 },
+  { name: "Palmer/Vallecalma", offset: 28 },
+  { name: "Ronga/Gambino", offset: 33 },
+  { name: "Pistacchio/Ronga", offset: 37 },
+  { name: "Papi Dell'Orto/Parco dei Fiori", offset: 42 },
+  { name: "Papi Dell'Orto/Pattumelli", offset: 47 },
+  { name: "Pattumelli", offset: 53 },
+  { name: "P.za Longo", offset: 58 }
+];
+
+const line6DataRitorno = [];
+let currentOffset6 = 0;
+const reversedRaw6 = [...line6DataAndata].reverse().filter(s => s.name !== "Vallecalma");
+
+for (let i = 0; i < reversedRaw6.length; i++) {
+  if (i === 0) {
+    line6DataRitorno.push({ name: reversedRaw6[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line6DataAndata.find(s => s.name === reversedRaw6[i-1].name).offset;
+    const currOriginalOffset = line6DataAndata.find(s => s.name === reversedRaw6[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset6 += diff;
+    line6DataRitorno.push({ name: reversedRaw6[i].name, offset: currentOffset6 });
+  }
+}
+
+const line6Orari = {
+  andata: {
+    feriale: [...generateCadence("06:00", "19:30", 45), "20:50", "22:00", "23:00", "00:00"],
+    festivo: ["06:00", ...generateCadence("07:10", "20:00", 70), "21:20", "22:40", "00:00"]
+  },
+  ritorno: {
+    feriale: ["07:10", ...generateCadence("07:55", "20:40", 45), "22:00", "23:10", "00:10", "01:10"],
+    festivo: ["07:10", ...generateCadence("08:20", "21:10", 70), "22:30", "23:50", "01:10"]
+  }
+};
+
+let line6Direction = "andata";
+let line6DayType = "feriale";
+
+function renderLine6Departures() {
+  const depContainer = document.getElementById("line6-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line6Orari[line6Direction][line6DayType];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip6(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip6(currentDepartures[0]);
+  }
+}
+
+function loadTrip6(startTime) {
+  const currentData = line6Direction === "andata" ? line6DataAndata : line6DataRitorno;
+  document.getElementById("line6-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line6-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line6-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function toggleLine6Direction() {
+  line6Direction = (line6Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("line6-subtitle").innerText = line6Direction === "andata" ? "Loveri ➔ P.za Longo" : "P.za Longo ➔ Loveri";
+  renderLine6Departures();
+}
+
+function setLine6DayType(type) {
+  line6DayType = type;
+  document.getElementById("btn-feriale").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo").classList.toggle("active", type === 'festivo');
+  renderLine6Departures();
+}
+
+/* ================= TRAM T2 ================= */
+const t2DataAndata = [
+  { name: "Furuya (MB)", offset: 0 },
+  { name: "Black/Stz. Schinichi Kudo", offset: 5 },
+  { name: "Tropeano", offset: 9 },
+  { name: "Tropeano/Procesi", offset: 12 },
+  { name: "Liverani", offset: 16 },
+  { name: "Battaglia/Capuano", offset: 20 },
+  { name: "Ple. Scott", offset: 24 }
+];
+
+const t2DataRitorno = [
+  { name: "Ple. Scott", offset: 0 },
+  { name: "Battaglia/Capuano", offset: 4 },
+  { name: "Liverani", offset: 8 },
+  { name: "Tropeano/Procesi", offset: 12 },
+  { name: "Tropeano", offset: 15 },
+  { name: "Black/Stz. Schinichi Kudo", offset: 19 },
+  { name: "Furuya (MB)", offset: 23 } 
+];
+
+const t2Orari = {
+  andata: [
+    ...generateCadence("05:30", "11:20", 35),
+    "12:00",
+    ...generateCadence("12:24", "18:00", 24),
+    "18:35",
+    ...generateCadence("19:10", "23:50", 35)
+  ],
+  ritorno: [
+    ...generateCadence("06:05", "11:55", 35),
+    "12:35",
+    "12:59",
+    ...generateCadence("13:23", "18:35", 24),
+    "19:10",
+    ...generateCadence("19:45", "00:25", 35)
+  ]
+};
+
+let t2Direction = "andata";
+
+function renderT2Departures() {
+  const depContainer = document.getElementById("t2-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = t2Orari[t2Direction];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTripT2(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTripT2(currentDepartures[0]);
+  }
+}
+
+function loadTripT2(startTime) {
+  const currentData = t2Direction === "andata" ? t2DataAndata : t2DataRitorno;
+  document.getElementById("t2-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("t2-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#t2-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-tram", btn.innerText === startTime);
+  });
+}
+
+function toggleT2Direction() {
+  t2Direction = (t2Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("t2-subtitle").innerText = t2Direction === "andata" ? "Furuya (MB) ➔ Ple. Scott" : "Ple. Scott ➔ Furuya (MB)";
+  renderT2Departures();
+}
+
+/* ================= TRAM T3 ================= */
+const t3StopsData = [
+  { name: "Stab. De Felice", offset: 0 },
+  { name: "Abbate/Cocciolillo", offset: 4 },
+  { name: "Feliziani/Barchi", offset: 5 },
+  { name: "Frascà/Cerisola", offset: 10 },
+  { name: "Frascà", offset: 16 },
+  { name: "Frascà/Tatsumi", offset: 20 },
+  { name: "Yamagishi/Amada", offset: 24 },
+  { name: "Frascà/Tatsumi", offset: 29 },
+  { name: "Frascà", offset: 34 },
+  { name: "Frascà/Cerisola", offset: 39 },
+  { name: "Feliziani/Barchi", offset: 45 },
+  { name: "Abbate/Cocciolillo", offset: 48 },
+  { name: "Stab. De Felice", offset: 52 }
+];
+
+const t3Departures = generateCadence("06:00", "23:30", 30);
+
+function loadTripT3(startTime) {
+  document.getElementById("t3-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("t3-stops").innerHTML = t3StopsData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#t3-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-tram", btn.innerText === startTime);
+  });
+}
+
+function renderT3Departures() {
+  const depContainer = document.getElementById("t3-departures");
+  depContainer.innerHTML = "";
+  
+  t3Departures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTripT3(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (t3Departures.length > 0) {
+    loadTripT3(t3Departures[0]);
+  }
+}
+
+/* ================= INIZIALIZZAZIONE HOME ================= */
+// Render Bus
+const busContainer = document.getElementById("bus-lines");
+for(let i=1; i<=19; i++){
+  const b = document.createElement("button");
+  const isActive = (i === 6 || i === 18);
+  b.className = "line bus" + (isActive ? " active" : "");
+  b.innerHTML = `Linea ${i}<span>${isActive ? "Clicca per vedere fermate e orari" : "In costruzione"}</span>`;
+  b.onclick = () => { 
+    if(i === 18) showLine18();
+    if(i === 6) showLine6();
+  };
+  busContainer.appendChild(b);
+}
+
+// Render Tram
+const tramContainer = document.getElementById("tram-lines");
+for(let i=1; i<=3; i++){
+  const b = document.createElement("button");
+  if (i === 1) {
+    b.className = "line tram suppressed";
+    b.innerHTML = `Tram T1<span>Definitivamente soppressa</span>`;
+  } else if (i === 2) {
+    b.className = "line tram active";
+    b.innerHTML = `Tram T2<span>Clicca per vedere fermate e orari</span>`;
+    b.onclick = () => showTramT2();
+  } else if (i === 3) {
+    b.className = "line tram active";
+    b.innerHTML = `Tram T3<span>Clicca per vedere fermate e orari</span>`;
+    b.onclick = () => showTramT3();
+  }
+  tramContainer.appendChild(b);
+}
+
+function showLine18(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line18").classList.remove("hidden");
+}
+
+function showLine6(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line6").classList.remove("hidden");
+}
+
+function showTramT2(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("tramT2").classList.remove("hidden");
+}
+
+function showTramT3(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("tramT3").classList.remove("hidden");
+}
+
+function showHome(){
+  document.getElementById("line18").classList.add("hidden");
+  document.getElementById("line6").classList.add("hidden");
+  document.getElementById("tramT2").classList.add("hidden");
+  document.getElementById("tramT3").classList.add("hidden");
+  document.getElementById("home").classList.remove("hidden");
+}
+
+// Inizializzazione partenze Linea 18
+const dep18 = document.getElementById("line18-departures");
+line18Departures.forEach(time => {
+  const btn = document.createElement("div");
+  btn.className = "time-btn";
+  btn.innerText = time;
+  btn.onclick = () => loadTrip18(time);
+  dep18.appendChild(btn);
+});
+
+// Caricamenti iniziali
+loadTrip18(line18Departures[0]);
+renderLine6Departures();
+renderT2Departures();
+renderT3Departures();
+</script>
+</body>
+</html>
