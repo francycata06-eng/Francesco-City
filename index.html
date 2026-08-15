@@ -18,7 +18,7 @@ h2{margin:18px 0 14px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap
 
 /* Bus (Verde) */
 .line.bus.active{border-left:6px solid #16834a}
-.badge.bus{background:#16834a;color:white;border-radius:12px;padding:8px 12px;font-weight:800}
+.badge.bus{background:#16834a;color:white;border-radius:12px;padding:8px 12px;font-weight:800;transition:all 0.3s ease}
 
 /* Linee Notturne (Bianche con bordo #351c75) */
 .line.night{background:white;color:#18201c}
@@ -156,7 +156,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <body>
 <header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
 <main>
-<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b> (con servizio Feriale e Festivo integrato), <b>Linea 6</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
 
 <section id="home">
 <h2>Linee autobus</h2>
@@ -230,7 +230,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 </div>
 </section>
 
-<!-- SEZIONE LINEA 3 (Feriale / Festiva integrata) -->
+<!-- SEZIONE LINEA 3 -->
 <section id="line3" class="hidden">
 <button class="back" onclick="showHome()">← Tutte le linee</button>
 <div class="card">
@@ -246,14 +246,69 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
   <div>
     <div class="switch-container">
       <button id="btn-line3-feriale" class="switch-btn active" onclick="setLine3Type('feriale')">📅 Feriale</button>
-      <button id="btn-line3-festivo" class="switch-btn" onclick="setLine3Type('festivo')">☀️ Festiva (3F)</button>
+      <button id="btn-line3-festivo" class="switch-btn" onclick="setLine3Type('festivo')">☀️ Festivi</button>
     </div>
     <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
     <div id="line3-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
     
     <div class="notice">
       <h4>📌 Bacheca notizie Linea 3</h4>
-      <span id="line3-notice-text">Istituzione linea e programmazione feriale attiva tra Stz. Di Biagio Ovest e Edogawa.</span>
+      <span id="line3-notice-text">15/1/1 : Istituzione linea.<br>1/2/1 : Prolungamento linea da Loveri a Stz. Di Biagio Ovest.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 4 -->
+<section id="line4" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 4</h2><div id="line4-subtitle">Stz. Di Biagio Ovest ➔ Alessandri</div></div><div class="badge bus">4</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn" onclick="toggleLine4Direction()">🔄 Cambia Direzione</button>
+    <h3 id="line4-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line4-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-line4-feriale" class="switch-btn active" onclick="setLine4Type('feriale')">📅 Feriale</button>
+      <button id="btn-line4-festivo" class="switch-btn" onclick="setLine4Type('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line4-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 4</h4>
+      <span>20/1/1 : Istituzione linea.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 5 -->
+<section id="line5" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 5</h2><div>Circolare Vannucchi - Taroralia (Festiva 5F)</div></div><div class="badge bus" id="line5-badge" style="background:#00ffff; color:#ffffff;">5F</div></div>
+
+<div class="line-content">
+  <div>
+    <h3 id="line5-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line5-stops"></tbody></table>
+  </div>
+  <div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea Vannucchi</h3>
+    <div id="line5-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 5</h4>
+      <span>20/1/1 : Istituzione linea 5.<br>17/7/1 : Linea 5 diventa circolare festiva con unico capolinea a Vannucchi denominata 5F</span>
     </div>
   </div>
 </div>
@@ -571,12 +626,12 @@ for (let i = 0; i < reversedRaw2.length; i++) {
 const line2Orari = {
   andata: {
     feriale: ["05:45", "09:10", "11:30", "15:40", "18:00", "20:30", "22:30"],
-    sabato: ["05:45", "07:40", "09:10", "09:40", "11:30", "13:40", "15:40", "18:00", "20:30", "22:30"],
+    sabato: ["05:45", "07:40", "09:40", "11:30", "13:40", "15:40", "18:00", "20:30", "22:30"],
     festivo: ["06:00", "08:40", "11:20", "14:00", "17:00", "20:00", "22:40"]
   },
   ritorno: {
     feriale: ["06:40", "10:20", "12:40", "16:50", "19:15", "21:30", "23:30"],
-    sabato: ["06:40", "08:40", "10:20", "10:35", "12:40", "14:40", "16:50", "19:15", "21:30", "23:30"],
+    sabato: ["06:40", "08:40", "10:35", "12:40", "14:40", "16:50", "19:15", "21:30", "23:30"],
     festivo: ["07:20", "10:00", "12:40", "15:30", "18:30", "21:20", "00:00"]
   },
   scolastica: {
@@ -675,7 +730,7 @@ function setLine2RouteType(type) {
   renderLine2Departures();
 }
 
-/* ================= LINEA 3 (Feriale & Festiva 3F integrata) ================= */
+/* ================= LINEA 3 (Feriale & Festiva integrata) ================= */
 const line3DataAndata = [
   { name: "Stz. Di Biagio Ovest", offset: 0 },
   { name: "Mele", offset: 2 },
@@ -685,8 +740,8 @@ const line3DataAndata = [
   { name: "Parente/Pucello", offset: 16 },
   { name: "Parente", offset: 20 },
   { name: "Scala/Parente", offset: 24 },
-  { name: "SS. Ascolese", offset: 30 },
-  { name: "SS. B.ni/Dell'Ann.la", offset: 42 },
+  { name: "SS. Ascolese/Caiazzo", offset: 30 },
+  { name: "SS. Ascolese/Dell'Annunziata", offset: 42 },
   { name: "Mori/Edogawa", offset: 51 },
   { name: "Edogawa", offset: 53 }
 ];
@@ -712,9 +767,8 @@ const line3Orari = {
   ritorno: ["07:00", "09:05", "11:15", "13:25", "15:35", "17:45", "20:05", "22:00", "23:45"]
 };
 
-// Linea 3 Festiva (3F) dati
 const line3FestivaDataAndata = [
-  { name: "Stz. di Biagio", offset: 0 },
+  { name: "Stz. Di Biagio Ovest", offset: 0 },
   { name: "Mele", offset: 3 },
   { name: "Di Biagio/Russo", offset: 6 },
   { name: "Pellegrino/Di Biagio", offset: 9 },
@@ -750,7 +804,7 @@ const line3FestivaOrari = {
   ritorno: ["06:45", "08:20", "10:00", "11:40", "13:20", "15:00", "16:30", "18:00", "19:40", "21:45", "23:40"]
 };
 
-let line3Mode = "feriale"; // 'feriale' o 'festivo'
+let line3Mode = "feriale"; 
 let line3Direction = "andata";
 
 function renderLine3Departures() {
@@ -803,18 +857,17 @@ function setLine3Type(type) {
   
   const badge = document.getElementById("line3-badge");
   const titleText = document.getElementById("line3-title-text");
-  const noticeText = document.getElementById("line3-notice-text");
 
   if (type === 'festivo') {
     badge.innerText = "3F";
-    badge.style.backgroundColor = "#27ae60";
+    badge.style.backgroundColor = "#00ffff";
+    badge.style.color = "#ffffff";
     titleText.innerText = "Linea 3 Festiva";
-    noticeText.innerText = "Servizio festivo attivo tra Stz. di Biagio ed Edgeworth lungo il percorso dedicato.";
   } else {
     badge.innerText = "3";
     badge.style.backgroundColor = "#16834a";
+    badge.style.color = "#ffffff";
     titleText.innerText = "Linea 3";
-    noticeText.innerText = "Istituzione linea e programmazione feriale attiva tra Stz. Di Biagio Ovest e Edogawa.";
   }
 
   updateLine3Subtitles();
@@ -825,8 +878,150 @@ function updateLine3Subtitles() {
   if (line3Mode === "feriale") {
     document.getElementById("line3-subtitle").innerText = line3Direction === "andata" ? "Stz. Di Biagio Ovest ➔ Edogawa" : "Edogawa ➔ Stz. Di Biagio Ovest";
   } else {
-    document.getElementById("line3-subtitle").innerText = line3Direction === "andata" ? "Stz. di Biagio ➔ Edgeworth" : "Edgeworth ➔ Stz. di Biagio";
+    document.getElementById("line3-subtitle").innerText = line3Direction === "andata" ? "Stz. Di Biagio Ovest ➔ Edgeworth" : "Edgeworth ➔ Stz. Di Biagio Ovest";
   }
+}
+
+/* ================= LINEA 4 ================= */
+const line4DataAndata = [
+  { name: "Stz. Di Biagio Ovest", offset: 0 },
+  { name: "Mele", offset: 2 },
+  { name: "Cirulli/Russo", offset: 6 },
+  { name: "Faustini/Sabatini", offset: 9 },
+  { name: "Casorelli", offset: 13 },
+  { name: "Loveri", offset: 20 },
+  { name: "Carrubba/Zummo", offset: 24 },
+  { name: "Novelli/Corbo", offset: 27 },
+  { name: "Novelli/Vicentini", offset: 29 },
+  { name: "Alessandri", offset: 34 }
+];
+
+const line4DataRitorno = [];
+let currentOffset4 = 0;
+const reversedRaw4 = [...line4DataAndata].reverse();
+
+for (let i = 0; i < reversedRaw4.length; i++) {
+  if (i === 0) {
+    line4DataRitorno.push({ name: reversedRaw4[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line4DataAndata.find(s => s.name === reversedRaw4[i-1].name).offset;
+    const currOriginalOffset = line4DataAndata.find(s => s.name === reversedRaw4[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset4 += diff;
+    line4DataRitorno.push({ name: reversedRaw4[i].name, offset: currentOffset4 });
+  }
+}
+
+const line4Orari = {
+  feriale: {
+    andata: ["06:00", "07:20", "09:00", "10:40", "12:20", "14:00", "15:35", "17:05", "18:50", "20:30", "22:00", "23:20"],
+    ritorno: ["06:40", "08:10", "09:50", "11:30", "13:10", "14:50", "16:20", "18:00", "19:40", "21:15", "22:40", "23:55"]
+  },
+  festivo: {
+    andata: ["06:00", "07:40", "09:20", "11:00", "12:50", "14:40", "16:30", "18:20", "20:10", "21:50", "23:20"],
+    ritorno: ["06:50", "08:30", "10:10", "11:55", "13:45", "15:35", "17:25", "19:15", "21:00", "22:40", "00:00"]
+  }
+};
+
+let line4Mode = "feriale"; // 'feriale' o 'festivo'
+let line4Direction = "andata";
+
+function renderLine4Departures() {
+  const depContainer = document.getElementById("line4-departures");
+  depContainer.innerHTML = "";
+  
+  const currentDepartures = line4Orari[line4Mode][line4Direction];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip4(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip4(currentDepartures[0]);
+  }
+}
+
+function loadTrip4(startTime) {
+  const currentData = line4Direction === "andata" ? line4DataAndata : line4DataRitorno;
+
+  document.getElementById("line4-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line4-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line4-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function toggleLine4Direction() {
+  line4Direction = (line4Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("line4-subtitle").innerText = line4Direction === "andata" ? "Stz. Di Biagio Ovest ➔ Alessandri" : "Alessandri ➔ Stz. Di Biagio Ovest";
+  renderLine4Departures();
+}
+
+function setLine4Type(type) {
+  line4Mode = type;
+  document.getElementById("btn-line4-feriale").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-line4-festivo").classList.toggle("active", type === 'festivo');
+  renderLine4Departures();
+}
+
+/* ================= LINEA 5 ================= */
+const line5StopsData = [
+  { name: "Vannucchi", offset: 0 },
+  { name: "Gubinelli", offset: 5 },
+  { name: "Pepe/Vannucchi", offset: 12 },
+  { name: "Edogawa", offset: 19 },
+  { name: "Mori/Edogawa", offset: 22 },
+  { name: "Pavone", offset: 26 },
+  { name: "Maggioli/Pavone", offset: 31 },
+  { name: "Sorrentino/S. Maria", offset: 37 },
+  { name: "Sorr.no/Taroralia", offset: 40 },
+  { name: "Taroralia Nord", offset: 43 },
+  { name: "Taroralia", offset: 48 },
+  { name: "Taroralia Nord", offset: 54 },
+  { name: "Sorr.no/Taroralia", offset: 57 },
+  { name: "Sorr.no/S. Maria", offset: 60 },
+  { name: "Maggioli/Pavone", offset: 68 },
+  { name: "Pepe/Vannucchi", offset: 72 },
+  { name: "Vannucchi", offset: 76 }
+];
+
+const line5Orari = [
+  "07:00", "08:30", "10:00", "11:30", "13:00", "14:30", "16:00", "17:30", "19:00", "20:30", "22:30"
+];
+
+function renderLine5Departures() {
+  const depContainer = document.getElementById("line5-departures");
+  depContainer.innerHTML = "";
+  
+  line5Orari.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip5(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (line5Orari.length > 0) {
+    loadTrip5(line5Orari[0]);
+  }
+}
+
+function loadTrip5(startTime) {
+  document.getElementById("line5-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line5-stops").innerHTML = line5StopsData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line5-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
 }
 
 /* ================= LINEA 18 ================= */
@@ -1134,37 +1329,41 @@ function renderT3Departures() {
 }
 
 /* ================= INIZIALIZZAZIONE HOME ================= */
-// Render Bus (Linee 1-19)
 const busContainer = document.getElementById("bus-lines");
 for(let i=1; i<=19; i++){
   const b = document.createElement("button");
-  const isActive = (i === 1 || i === 2 || i === 3 || i === 6 || i === 18);
+  const isActive = (i >= 1 && i <= 6 || i === 18);
   b.className = "line bus" + (isActive ? " active" : "");
-  b.innerHTML = `Linea ${i}<span>${isActive ? "Clicca per vedere fermate e orari" : "In costruzione"}</span>`;
+  
+  if (i === 5) {
+    b.innerHTML = `Linea 5<span>Clicca per vedere fermate e orari</span>`;
+  } else {
+    b.innerHTML = `Linea ${i}<span>${isActive ? "Clicca per vedere fermate e orari" : "In costruzione"}</span>`;
+  }
+
   b.onclick = () => { 
     if(i === 1) showLine1();
     if(i === 2) showLine2();
     if(i === 3) showLine3();
+    if(i === 4) showLine4();
+    if(i === 5) showLine5();
     if(i === 6) showLine6();
     if(i === 18) showLine18();
   };
   busContainer.appendChild(b);
 }
 
-// Divisore e Linee Notturne alla fine della sezione bus
 const divider = document.createElement("div");
 divider.className = "section-divider";
 divider.innerText = "Linee Notturne";
 busContainer.appendChild(divider);
 
-// Linea 1N (attiva)
 const b1N = document.createElement("button");
 b1N.className = "line night active";
 b1N.innerHTML = `Linea 1N<span>Clicca per vedere fermate e orari</span>`;
 b1N.onclick = () => showLine1N();
 busContainer.appendChild(b1N);
 
-// Linee 5N e 9N (in costruzione)
 ["5N", "9N"].forEach(nightLine => {
   const b = document.createElement("button");
   b.className = "line night";
@@ -1172,7 +1371,6 @@ busContainer.appendChild(b1N);
   busContainer.appendChild(b);
 });
 
-// Render Tram
 const tramContainer = document.getElementById("tram-lines");
 for(let i=1; i<=3; i++){
   const b = document.createElement("button");
@@ -1206,6 +1404,16 @@ function showLine3(){
   document.getElementById("line3").classList.remove("hidden");
 }
 
+function showLine4(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line4").classList.remove("hidden");
+}
+
+function showLine5(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line5").classList.remove("hidden");
+}
+
 function showLine6(){
   document.getElementById("home").classList.add("hidden");
   document.getElementById("line6").classList.remove("hidden");
@@ -1235,6 +1443,8 @@ function showHome(){
   document.getElementById("line1").classList.add("hidden");
   document.getElementById("line2").classList.add("hidden");
   document.getElementById("line3").classList.add("hidden");
+  document.getElementById("line4").classList.add("hidden");
+  document.getElementById("line5").classList.add("hidden");
   document.getElementById("line6").classList.add("hidden");
   document.getElementById("line18").classList.add("hidden");
   document.getElementById("line1N").classList.add("hidden");
@@ -1243,7 +1453,6 @@ function showHome(){
   document.getElementById("home").classList.remove("hidden");
 }
 
-// Inizializzazioni partenze
 const dep18 = document.getElementById("line18-departures");
 line18Departures.forEach(time => {
   const btn = document.createElement("div");
@@ -1253,10 +1462,11 @@ line18Departures.forEach(time => {
   dep18.appendChild(btn);
 });
 
-// Caricamenti iniziali
 renderLine1Departures();
 renderLine2Departures();
 renderLine3Departures();
+renderLine4Departures();
+renderLine5Departures();
 loadTrip18(line18Departures[0]);
 renderLine6Departures();
 renderLine1NDepartures();
