@@ -161,7 +161,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <body>
 <header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
 <main>
-<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
 
 <section id="home">
 <h2>Linee autobus</h2>
@@ -324,35 +324,6 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 </div>
 </section>
 
-<!-- SEZIONE LINEA 18 -->
-<section id="line18" class="hidden">
-<button class="back" onclick="showHome()">← Tutte le linee</button>
-<div class="card">
-<div class="route"><div><h2 style="margin:0">Linea 18</h2><div>Circolare Cala di Bratton</div></div><div class="badge bus">18</div></div>
-
-<div class="line-content">
-  <div>
-    <h3 id="line18-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
-    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
-    <tbody id="line18-stops"></tbody></table>
-  </div>
-  <div>
-    <div class="switch-container">
-      <button id="btn-feriale-18" class="switch-btn active" onclick="setLine18DayType('feriale')">📅 Feriale (Lun-Sab)</button>
-      <button id="btn-festivo-18" class="switch-btn" onclick="setLine18DayType('festivo')">☀️ Festivi</button>
-    </div>
-    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
-    <div id="line18-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
-    
-    <div class="notice">
-      <h4>📌 Bacheca notizie Linea 18</h4>
-      <span>Seleziona un orario in alto per consultare il dettaglio delle fermate. Servizio regolare su tutta la linea.</span>
-    </div>
-  </div>
-</div>
-</div>
-</section>
-
 <!-- SEZIONE LINEA 6 -->
 <section id="line6" class="hidden">
 <button class="back" onclick="showHome()">← Tutte le linee</button>
@@ -377,6 +348,95 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     <div class="notice">
       <h4>📌 Bacheca notizie Linea 6</h4>
       <span>Seleziona un orario per vedere le fermate. Ricorda di verificare il calendario Feriale o Festivo prima di consultare gli orari.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 7 -->
+<section id="line7" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 7</h2><div id="line7-subtitle">Stz. Vallecalma ➔ Yamagishi/Amada</div></div><div class="badge bus">7</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn" onclick="toggleLine7Direction()">🔄 Cambia Direzione</button>
+    <h3 id="line7-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line7-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-7" class="switch-btn active" onclick="setLine7DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-7" class="switch-btn" onclick="setLine7DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line7-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 7</h4>
+      <span>30/1/1 : Istituzione linea tra Edgeworth e Yamagishi/Amada.<br>16/5/1 : Spostamento capolinea da Edgeworth a Stz. Vallecalma e disattivazione deviazione scolastica.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 8 -->
+<section id="line8" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 8</h2><div id="line8-subtitle">Ple. Scott ➔ L.go Wallace</div></div><div class="badge bus">8</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn" onclick="toggleLine8Direction()">🔄 Cambia Direzione</button>
+    <h3 id="line8-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line8-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-8" class="switch-btn active" onclick="setLine8DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-8" class="switch-btn" onclick="setLine8DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line8-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 8</h4>
+      <span>5/2/1 : Istituzione linea tra Ple. Scott e L.go Wallace</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 18 -->
+<section id="line18" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 18</h2><div>Circolare Cala di Bratton</div></div><div class="badge bus">18</div></div>
+
+<div class="line-content">
+  <div>
+    <h3 id="line18-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line18-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-18" class="switch-btn active" onclick="setLine18DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-18" class="switch-btn" onclick="setLine18DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line18-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 18</h4>
+      <span>Seleziona un orario in alto per consultare il dettaglio delle fermate. Servizio regolare su tutta la linea.</span>
     </div>
   </div>
 </div>
@@ -1098,53 +1158,6 @@ function setLine5DayType(type) {
   renderLine5Departures();
 }
 
-/* ================= LINEA 18 ================= */
-const line18Offsets = [0, 7, 12, 19, 26, 37, 45, 49, 58];
-const line18Stops = ["Cala di Bratton","Levinson","Levinson/Filippelli","Martin/Filippelli","Flenderson/Wallace","Martin/Filippelli","Levinson","Levinson/Filippelli","Cala di Bratton"];
-const line18BaseDepartures = ["00:00","01:10","02:20","03:30","04:40","05:50","07:00","08:10","09:20","10:30","11:40","12:50","14:00","15:10","16:20","17:30","18:40","20:00","21:20","22:40"];
-
-const line18Orari = {
-  feriale: line18BaseDepartures,
-  festivo: line18BaseDepartures
-};
-
-let line18DayType = "feriale";
-
-function renderLine18Departures() {
-  const depContainer = document.getElementById("line18-departures");
-  depContainer.innerHTML = "";
-  const currentDepartures = line18Orari[line18DayType];
-  
-  currentDepartures.forEach(time => {
-    const btn = document.createElement("div");
-    btn.className = "time-btn";
-    btn.innerText = time;
-    btn.onclick = () => loadTrip18(time);
-    depContainer.appendChild(btn);
-  });
-
-  if (currentDepartures.length > 0) {
-    loadTrip18(currentDepartures[0]);
-  }
-}
-
-function loadTrip18(startTime) {
-  document.getElementById("line18-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
-  document.getElementById("line18-stops").innerHTML = line18Stops.map((s, i) => 
-    `<tr><td>${s}</td><td><b>${addMinutes(startTime, line18Offsets[i])}</b></td></tr>`
-  ).join("");
-  document.querySelectorAll("#line18-departures .time-btn").forEach(btn => {
-    btn.classList.toggle("selected-bus", btn.innerText === startTime);
-  });
-}
-
-function setLine18DayType(type) {
-  line18DayType = type;
-  document.getElementById("btn-feriale-18").classList.toggle("active", type === 'feriale');
-  document.getElementById("btn-festivo-18").classList.toggle("active", type === 'festivo');
-  renderLine18Departures();
-}
-
 /* ================= LINEA 6 ================= */
 const line6DataAndata = [
   { name: "Loveri", offset: 0 },
@@ -1232,6 +1245,225 @@ function setLine6DayType(type) {
   document.getElementById("btn-feriale").classList.toggle("active", type === 'feriale');
   document.getElementById("btn-festivo").classList.toggle("active", type === 'festivo');
   renderLine6Departures();
+}
+
+/* ================= LINEA 7 ================= */
+const line7DataAndata = [
+  { name: "Stz. Vallecalma", offset: 0 },
+  { name: "Satonaka/Takemi", offset: 6 },
+  { name: "Satonaka/Amagi", offset: 10 },
+  { name: "Hanamura/Kujikawa", offset: 15 },
+  { name: "Hanamura/Shirogane", offset: 19 },
+  { name: "Kirijo/Shirogane", offset: 23 },
+  { name: "Takeba/Iori", offset: 28 },
+  { name: "Yamagishi/Amada", offset: 35 }
+];
+
+const line7DataRitorno = [];
+let currentOffset7 = 0;
+const reversedRaw7 = [...line7DataAndata].reverse();
+
+for (let i = 0; i < reversedRaw7.length; i++) {
+  if (i === 0) {
+    line7DataRitorno.push({ name: reversedRaw7[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line7DataAndata.find(s => s.name === reversedRaw7[i-1].name).offset;
+    const currOriginalOffset = line7DataAndata.find(s => s.name === reversedRaw7[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset7 += diff;
+    line7DataRitorno.push({ name: reversedRaw7[i].name, offset: currentOffset7 });
+  }
+}
+
+const line7Orari = {
+  feriale: {
+    andata: ["06:00", "07:20", "08:50", "10:20", "11:45", "13:15", "14:50", "16:25", "18:00", "19:40", "21:15", "22:40", "23:55"],
+    ritorno: ["06:40", "08:05", "09:35", "11:00", "12:30", "14:00", "15:40", "17:10", "18:50", "20:30", "22:00", "23:20", "00:30"]
+  },
+  festivo: {
+    andata: ["06:00", "07:30", "09:00", "10:30", "12:00", "13:30", "15:40", "17:20", "19:00", "21:00", "23:10"],
+    ritorno: ["06:45", "08:15", "09:45", "11:15", "12:45", "14:30", "16:30", "18:10", "20:00", "22:00", "00:20"]
+  }
+};
+
+let line7Direction = "andata";
+let line7DayType = "feriale";
+
+function renderLine7Departures() {
+  const depContainer = document.getElementById("line7-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line7Orari[line7DayType][line7Direction];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip7(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip7(currentDepartures[0]);
+  }
+}
+
+function loadTrip7(startTime) {
+  const currentData = line7Direction === "andata" ? line7DataAndata : line7DataRitorno;
+  document.getElementById("line7-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line7-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line7-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function toggleLine7Direction() {
+  line7Direction = (line7Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("line7-subtitle").innerText = line7Direction === "andata" ? "Stz. Vallecalma ➔ Yamagishi/Amada" : "Yamagishi/Amada ➔ Stz. Vallecalma";
+  renderLine7Departures();
+}
+
+function setLine7DayType(type) {
+  line7DayType = type;
+  document.getElementById("btn-feriale-7").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-7").classList.toggle("active", type === 'festivo');
+  renderLine7Departures();
+}
+
+/* ================= LINEA 8 ================= */
+const line8DataAndata = [
+  { name: "Ple. Scott", offset: 0 },
+  { name: "Schrute/Halpert", offset: 8 },
+  { name: "Halpert", offset: 17 },
+  { name: "Beesly/Halpert", offset: 21 },
+  { name: "Beesly/Bernard", offset: 26 },
+  { name: "Bernard/California", offset: 33 },
+  { name: "California", offset: 36 },
+  { name: "California/Levinson", offset: 40 },
+  { name: "Martin/Filippelli", offset: 44 },
+  { name: "L.go Wallace", offset: 51 }
+];
+
+const line8DataRitorno = [];
+let currentOffset8 = 0;
+const reversedRaw8 = [...line8DataAndata].reverse();
+
+for (let i = 0; i < reversedRaw8.length; i++) {
+  if (i === 0) {
+    line8DataRitorno.push({ name: reversedRaw8[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line8DataAndata.find(s => s.name === reversedRaw8[i-1].name).offset;
+    const currOriginalOffset = line8DataAndata.find(s => s.name === reversedRaw8[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset8 += diff;
+    line8DataRitorno.push({ name: reversedRaw8[i].name, offset: currentOffset8 });
+  }
+}
+
+const line8Orari = {
+  feriale: {
+    andata: ["06:00", "07:45", "09:50", "12:10", "14:30", "16:40", "19:00", "21:00", "22:50"],
+    ritorno: ["06:50", "08:45", "11:00", "13:20", "15:35", "17:50", "20:05", "21:55", "23:40"]
+  },
+  festivo: {
+    andata: ["06:00", "08:10", "10:30", "13:00", "15:30", "18:00", "20:30", "23:00"],
+    ritorno: ["07:05", "09:15", "11:45", "14:15", "16:45", "19:15", "21:45", "23:45"]
+  }
+};
+
+let line8Direction = "andata";
+let line8DayType = "feriale";
+
+function renderLine8Departures() {
+  const depContainer = document.getElementById("line8-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line8Orari[line8DayType][line8Direction];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip8(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip8(currentDepartures[0]);
+  }
+}
+
+function loadTrip8(startTime) {
+  const currentData = line8Direction === "andata" ? line8DataAndata : line8DataRitorno;
+  document.getElementById("line8-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line8-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line8-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function toggleLine8Direction() {
+  line8Direction = (line8Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("line8-subtitle").innerText = line8Direction === "andata" ? "Ple. Scott ➔ L.go Wallace" : "L.go Wallace ➔ Ple. Scott";
+  renderLine8Departures();
+}
+
+function setLine8DayType(type) {
+  line8DayType = type;
+  document.getElementById("btn-feriale-8").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-8").classList.toggle("active", type === 'festivo');
+  renderLine8Departures();
+}
+
+/* ================= LINEA 18 ================= */
+const line18Offsets = [0, 7, 12, 19, 26, 37, 45, 49, 58];
+const line18Stops = ["Cala di Bratton","Levinson","Levinson/Filippelli","Martin/Filippelli","Flenderson/Wallace","Martin/Filippelli","Levinson","Levinson/Filippelli","Cala di Bratton"];
+const line18BaseDepartures = ["00:00","01:10","02:20","03:30","04:40","05:50","07:00","08:10","09:20","10:30","11:40","12:50","14:00","15:10","16:20","17:30","18:40","20:00","21:20","22:40"];
+
+const line18Orari = {
+  feriale: line18BaseDepartures,
+  festivo: line18BaseDepartures
+};
+
+let line18DayType = "feriale";
+
+function renderLine18Departures() {
+  const depContainer = document.getElementById("line18-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line18Orari[line18DayType];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip18(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip18(currentDepartures[0]);
+  }
+}
+
+function loadTrip18(startTime) {
+  document.getElementById("line18-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line18-stops").innerHTML = line18Stops.map((s, i) => 
+    `<tr><td>${s}</td><td><b>${addMinutes(startTime, line18Offsets[i])}</b></td></tr>`
+  ).join("");
+  document.querySelectorAll("#line18-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function setLine18DayType(type) {
+  line18DayType = type;
+  document.getElementById("btn-feriale-18").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-18").classList.toggle("active", type === 'festivo');
+  renderLine18Departures();
 }
 
 /* ================= LINEA 1N ================= */
@@ -1542,7 +1774,7 @@ function renderT3Departures() {
 const busContainer = document.getElementById("bus-lines");
 for(let i=1; i<=19; i++){
   const b = document.createElement("button");
-  const isActive = (i >= 1 && i <= 6 || i === 18);
+  const isActive = (i >= 1 && i <= 8 || i === 18);
   b.className = "line bus" + (isActive ? " active" : "");
   
   if (i === 1) {
@@ -1557,6 +1789,10 @@ for(let i=1; i<=19; i++){
     b.innerHTML = `Linea 5<span>Circolare Vannucchi</span>`;
   } else if (i === 6) {
     b.innerHTML = `Linea 6<span>Loveri ⇄ P.za Longo</span>`;
+  } else if (i === 7) {
+    b.innerHTML = `Linea 7<span>Stz. Vallecalma ⇄ Yamagishi/Amada</span>`;
+  } else if (i === 8) {
+    b.innerHTML = `Linea 8<span>Ple. Scott ⇄ L.go Wallace</span>`;
   } else if (i === 18) {
     b.innerHTML = `Linea 18<span>Circolare Cala di Bratton</span>`;
   } else {
@@ -1570,6 +1806,8 @@ for(let i=1; i<=19; i++){
     if(i === 4) showLine4();
     if(i === 5) showLine5();
     if(i === 6) showLine6();
+    if(i === 7) showLine7();
+    if(i === 8) showLine8();
     if(i === 18) showLine18();
   };
   busContainer.appendChild(b);
@@ -1647,6 +1885,16 @@ function showLine6(){
   document.getElementById("line6").classList.remove("hidden");
 }
 
+function showLine7(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line7").classList.remove("hidden");
+}
+
+function showLine8(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line8").classList.remove("hidden");
+}
+
 function showLine18(){
   document.getElementById("home").classList.add("hidden");
   document.getElementById("line18").classList.remove("hidden");
@@ -1679,6 +1927,8 @@ function showHome(){
   document.getElementById("line4").classList.add("hidden");
   document.getElementById("line5").classList.add("hidden");
   document.getElementById("line6").classList.add("hidden");
+  document.getElementById("line7").classList.add("hidden");
+  document.getElementById("line8").classList.add("hidden");
   document.getElementById("line18").classList.add("hidden");
   document.getElementById("line1N").classList.add("hidden");
   document.getElementById("line5N").classList.add("hidden");
@@ -1692,8 +1942,10 @@ renderLine2Departures();
 renderLine3Departures();
 renderLine4Departures();
 renderLine5Departures();
-renderLine18Departures();
 renderLine6Departures();
+renderLine7Departures();
+renderLine8Departures();
+renderLine18Departures();
 renderLine1NDepartures();
 renderLine5NDepartures();
 renderT2Departures();
