@@ -161,7 +161,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <body>
 <header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
 <main>
-<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
 
 <section id="home">
 <h2>Linee autobus</h2>
@@ -487,6 +487,65 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 </div>
 </section>
 
+<!-- SEZIONE LINEA 12 -->
+<section id="line12" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 12</h2><div>Circolare Agasa</div></div><div class="badge bus">12</div></div>
+
+<div class="line-content">
+  <div>
+    <h3 id="line12-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line12-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-12" class="switch-btn active" onclick="setLine12DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-12" class="switch-btn" onclick="setLine12DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line12-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 12</h4>
+      <span>Servizio circolare<br>29/4/1 : Istituzione linea 12 circolare per nuovo quartiere Shinichi Kudo<br>20/5/1: modifica percorso, effettua fermata anche a Stazione Shinichi Kudo e Akai della metro B: da Agasa, via Yamato, via Black, via Furuya, via Yokomizo, via Starling indi normale percorso</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 13 -->
+<section id="line13" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 13</h2><div id="line13-subtitle">Schintu ➔ Silvestrelli</div></div><div class="badge bus">13</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn" onclick="toggleLine13Direction()">🔄 Cambia Direzione</button>
+    <h3 id="line13-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line13-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-13" class="switch-btn active" onclick="setLine13DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-13" class="switch-btn" onclick="setLine13DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line13-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 13</h4>
+      <span>5/5/1: Istituzione linea 13 per nuovo quartiere "Schaffler"</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
 <!-- SEZIONE LINEA 18 -->
 <section id="line18" class="hidden">
 <button class="back" onclick="showHome()">← Tutte le linee</button>
@@ -600,6 +659,36 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     <div class="notice" style="background:#f2eff9; border-color:#d5cde7; color:#351c75;">
       <h4>📌 Bacheca notizie Linea 8N</h4>
       <span>12/8/1 : attivazione navetta serale e notturna 8N</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 9N -->
+<section id="line9N" class="hidden">
+<button class="back" onclick="showHome()" style="color:#351c75">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 9N</h2><div id="line9N-subtitle">Fusco/Stab. De Felice ➔ Loveri</div></div><div class="badge night">9N</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn night-btn" onclick="toggleLine9NDirection()">🔄 Cambia Direzione</button>
+    <h3 id="line9N-selected-title" style="margin:0 0 10px; font-size:16px; color:#351c75;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line9N-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-9N" class="switch-btn night-active" onclick="setLine9NDayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-9N" class="switch-btn" onclick="setLine9NDayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line9N-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice" style="background:#f2eff9; border-color:#d5cde7; color:#351c75;">
+      <h4>📌 Bacheca notizie Linea 9N</h4>
+      <span>26/2/1 : Attivazione linea 9N tra Fusco e Loveri</span>
     </div>
   </div>
 </div>
@@ -780,6 +869,164 @@ function setLine1DayType(type) {
   document.getElementById("btn-feriale-1").classList.toggle("active", type === 'feriale');
   document.getElementById("btn-festivo-1").classList.toggle("active", type === 'festivo');
   renderLine1Departures();
+}
+
+/* ================= LINEA 12 ================= */
+const line12StopsData = [
+  { name: "Agasa", offset: 0 },
+  { name: "Yamato/Sato", offset: 1 },
+  { name: "Yamato/Vineyard", offset: 4 },
+  { name: "Black/Stz. Shinichi Kudo (MB)", offset: 6 },
+  { name: "Furuya (MB)", offset: 11 },
+  { name: "Yokomizo", offset: 15 },
+  { name: "Starling", offset: 21 },
+  { name: "Megure/Kisaki", offset: 25 },
+  { name: "Kudo", offset: 28 },
+  { name: "Suzuki/Araide", offset: 31 },
+  { name: "Tsuburaya", offset: 34 },
+  { name: "Kojima/Tsuburaya", offset: 38 },
+  { name: "Haibara", offset: 43 },
+  { name: "Mori/Edogawa", offset: 48 },
+  { name: "Edogawa", offset: 51 },
+  { name: "Mori/Edogawa", offset: 54 },
+  { name: "Haibara", offset: 58 },
+  { name: "Kojima/Tsuburaya", offset: 61 },
+  { name: "Tsuburaya", offset: 65 },
+  { name: "Suzuki/Araide", offset: 68 },
+  { name: "Kudo", offset: 71 },
+  { name: "Megure/Kisaki", offset: 73 },
+  { name: "Starling", offset: 75 },
+  { name: "Agasa", offset: 78 }
+];
+
+const line12Orari = {
+  feriale: ["06:00", "07:30", "09:00", "10:30", "12:00", "13:40", "15:20", "17:00", "18:30", "20:00", "21:30", "23:00"],
+  festivo: ["05:00", "07:00", "09:00", "11:00", "13:00", "15:00", "17:00", "19:00", "21:00", "23:00"]
+};
+
+let line12DayType = "feriale";
+
+function renderLine12Departures() {
+  const depContainer = document.getElementById("line12-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line12Orari[line12DayType];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip12(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip12(currentDepartures[0]);
+  }
+}
+
+function loadTrip12(startTime) {
+  document.getElementById("line12-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line12-stops").innerHTML = line12StopsData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line12-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function setLine12DayType(type) {
+  line12DayType = type;
+  document.getElementById("btn-feriale-12").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-12").classList.toggle("active", type === 'festivo');
+  renderLine12Departures();
+}
+
+/* ================= LINEA 13 ================= */
+const line13DataAndata = [
+  { name: "Schintu (H)", offset: 0 },
+  { name: "Schintu/Chionne (H)", offset: 12 },
+  { name: "Chionne", offset: 16 },
+  { name: "Idrizi/Chionne", offset: 21 },
+  { name: "Idrizi", offset: 24 },
+  { name: "Lungomare Iacopini/Idrizi", offset: 26 },
+  { name: "Lungomare Iacopini/De Marco", offset: 30 },
+  { name: "Lungomare/Iacopini Altobelli", offset: 34 },
+  { name: "Melideo", offset: 38 },
+  { name: "Silvestrelli", offset: 45 }
+];
+
+const line13DataRitorno = [];
+let currentOffset13 = 0;
+const reversedRaw13 = [...line13DataAndata].reverse();
+
+for (let i = 0; i < reversedRaw13.length; i++) {
+  if (i === 0) {
+    line13DataRitorno.push({ name: reversedRaw13[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line13DataAndata.find(s => s.name === reversedRaw13[i-1].name).offset;
+    const currOriginalOffset = line13DataAndata.find(s => s.name === reversedRaw13[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset13 += diff;
+    line13DataRitorno.push({ name: reversedRaw13[i].name, offset: currentOffset13 });
+  }
+}
+
+const line13Orari = {
+  feriale: {
+    andata: ["05:30", "07:15", "09:00", "11:10", "13:20", "15:20", "16:40", "18:50", "21:10", "23:00"],
+    ritorno: ["06:30", "08:15", "10:10", "12:20", "14:30", "16:40", "17:50", "20:10", "22:10", "00:00"]
+  },
+  festivo: {
+    andata: ["06:00", "08:00", "10:45", "12:30", "14:15", "16:45", "19:30", "22:45"],
+    ritorno: ["07:00", "09:30", "11:15", "13:00", "15:30", "18:15", "21:15", "23:45"]
+  }
+};
+
+let line13Direction = "andata";
+let line13DayType = "feriale";
+
+function renderLine13Departures() {
+  const depContainer = document.getElementById("line13-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line13Orari[line13DayType][line13Direction];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip13(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip13(currentDepartures[0]);
+  }
+}
+
+function loadTrip13(startTime) {
+  const currentData = line13Direction === "andata" ? line13DataAndata : line13DataRitorno;
+  document.getElementById("line13-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line13-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line13-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function toggleLine13Direction() {
+  line13Direction = (line13Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("line13-subtitle").innerText = line13Direction === "andata" ? "Schintu ➔ Silvestrelli" : "Silvestrelli ➔ Schintu";
+  renderLine13Departures();
+}
+
+function setLine13DayType(type) {
+  line13DayType = type;
+  document.getElementById("btn-feriale-13").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-13").classList.toggle("active", type === 'festivo');
+  renderLine13Departures();
 }
 
 /* ================= LINEA 2 ================= */
@@ -2032,6 +2279,98 @@ function setLine8NDayType(type) {
   renderLine8NDepartures();
 }
 
+/* ================= LINEA 9N ================= */
+const line9NDataAndata = [
+  { name: "Fusco/Stab. De Felice", offset: 0 },
+  { name: "Abbate/Cocciolillo", offset: 4 },
+  { name: "Feliziani/Barchi", offset: 5 },
+  { name: "Frascà/Cerisola", offset: 10 },
+  { name: "Frascà", offset: 16 },
+  { name: "Frascà/Tatsumi", offset: 20 },
+  { name: "Takeba/Iori", offset: 27 },
+  { name: "Kirijo/Shirogane", offset: 30 },
+  { name: "Hanamura/Shirogane", offset: 34 },
+  { name: "Hanamura/Kujikawa", offset: 37 },
+  { name: "Satonaka/Amagi", offset: 41 },
+  { name: "Satonaka/Takemi", offset: 44 },
+  { name: "Wright", offset: 48 },
+  { name: "Catapano/Prati Fioriti", offset: 52 },
+  { name: "Parca", offset: 56 },
+  { name: "Loveri", offset: 61 }
+];
+
+const line9NDataRitorno = [];
+let currentOffset9N = 0;
+const reversedRaw9N = [...line9NDataAndata].reverse();
+
+for (let i = 0; i < reversedRaw9N.length; i++) {
+  if (i === 0) {
+    line9NDataRitorno.push({ name: reversedRaw9N[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line9NDataAndata.find(s => s.name === reversedRaw9N[i-1].name).offset;
+    const currOriginalOffset = line9NDataAndata.find(s => s.name === reversedRaw9N[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset9N += diff;
+    line9NDataRitorno.push({ name: reversedRaw9N[i].name, offset: currentOffset9N });
+  }
+}
+
+const line9NBaseOrari = {
+  andata: ["00:00", "02:10", "04:30"],
+  ritorno: ["01:10", "03:20", "05:30"]
+};
+
+const line9NOrari = {
+  feriale: line9NBaseOrari,
+  festivo: line9NBaseOrari
+};
+
+let line9NDirection = "andata";
+let line9NDayType = "feriale";
+
+function renderLine9NDepartures() {
+  const depContainer = document.getElementById("line9N-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line9NOrari[line9NDayType][line9NDirection];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip9N(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip9N(currentDepartures[0]);
+  }
+}
+
+function loadTrip9N(startTime) {
+  const currentData = line9NDirection === "andata" ? line9NDataAndata : line9NDataRitorno;
+  document.getElementById("line9N-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line9N-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line9N-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-night", btn.innerText === startTime);
+  });
+}
+
+function toggleLine9NDirection() {
+  line9NDirection = (line9NDirection === "andata") ? "ritorno" : "andata";
+  document.getElementById("line9N-subtitle").innerText = line9NDirection === "andata" ? "Fusco/Stab. De Felice ➔ Loveri" : "Loveri ➔ Fusco/Stab. De Felice";
+  renderLine9NDepartures();
+}
+
+function setLine9NDayType(type) {
+  line9NDayType = type;
+  document.getElementById("btn-feriale-9N").classList.toggle("night-active", type === 'feriale');
+  document.getElementById("btn-festivo-9N").classList.toggle("night-active", type === 'festivo');
+  renderLine9NDepartures();
+}
+
 /* ================= TRAM T2 ================= */
 const t2DataAndata = [
   { name: "Furuya (MB)", offset: 0 },
@@ -2160,7 +2499,7 @@ function renderT3Departures() {
 const busContainer = document.getElementById("bus-lines");
 for(let i=1; i<=19; i++){
   const b = document.createElement("button");
-  const isActive = (i >= 1 && i <= 8 || i === 10 || i === 11 || i === 18);
+  const isActive = (i >= 1 && i <= 8 || i === 10 || i === 11 || i === 12 || i === 13 || i === 18);
   b.className = "line bus" + (isActive ? " active" : "");
   
   if (i === 9) {
@@ -2186,6 +2525,10 @@ for(let i=1; i<=19; i++){
     b.innerHTML = `Linea 10<span>P.za Nocera ⇄ Ple. Scott</span>`;
   } else if (i === 11) {
     b.innerHTML = `Linea 11<span>Caporali ⇄ Matsubara</span>`;
+  } else if (i === 12) {
+    b.innerHTML = `Linea 12<span>Circolare Agasa</span>`;
+  } else if (i === 13) {
+    b.innerHTML = `Linea 13<span>Schintu ⇄ Silvestrelli</span>`;
   } else if (i === 18) {
     b.innerHTML = `Linea 18<span>Circolare Cala di Bratton</span>`;
   } else {
@@ -2204,6 +2547,8 @@ for(let i=1; i<=19; i++){
     if(i === 9) showLine9();
     if(i === 10) showLine10();
     if(i === 11) showLine11();
+    if(i === 12) showLine12();
+    if(i === 13) showLine13();
     if(i === 18) showLine18();
   };
   busContainer.appendChild(b);
@@ -2232,12 +2577,11 @@ b8N.innerHTML = `Linea 8N<span>Barbuto ⇄ Ple. Scott</span>`;
 b8N.onclick = () => showLine8N();
 busContainer.appendChild(b8N);
 
-["9N"].forEach(nightLine => {
-  const b = document.createElement("button");
-  b.className = "line night";
-  b.innerHTML = `Linea ${nightLine}<span>In costruzione</span>`;
-  busContainer.appendChild(b);
-});
+const b9N = document.createElement("button");
+b9N.className = "line night active";
+b9N.innerHTML = `Linea 9N<span>Fusco/Stab. De Felice ⇄ Loveri</span>`;
+b9N.onclick = () => showLine9N();
+busContainer.appendChild(b9N);
 
 const tramContainer = document.getElementById("tram-lines");
 for(let i=1; i<=3; i++){
@@ -2313,6 +2657,16 @@ function showLine11(){
   document.getElementById("line11").classList.remove("hidden");
 }
 
+function showLine12(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line12").classList.remove("hidden");
+}
+
+function showLine13(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line13").classList.remove("hidden");
+}
+
 function showLine18(){
   document.getElementById("home").classList.add("hidden");
   document.getElementById("line18").classList.remove("hidden");
@@ -2331,6 +2685,11 @@ function showLine5N(){
 function showLine8N(){
   document.getElementById("home").classList.add("hidden");
   document.getElementById("line8N").classList.remove("hidden");
+}
+
+function showLine9N(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line9N").classList.remove("hidden");
 }
 
 function showTramT1(){
@@ -2360,10 +2719,13 @@ function showHome(){
   document.getElementById("line9").classList.add("hidden");
   document.getElementById("line10").classList.add("hidden");
   document.getElementById("line11").classList.add("hidden");
+  document.getElementById("line12").classList.add("hidden");
+  document.getElementById("line13").classList.add("hidden");
   document.getElementById("line18").classList.add("hidden");
   document.getElementById("line1N").classList.add("hidden");
   document.getElementById("line5N").classList.add("hidden");
   document.getElementById("line8N").classList.add("hidden");
+  document.getElementById("line9N").classList.add("hidden");
   document.getElementById("tramT1").classList.add("hidden");
   document.getElementById("tramT2").classList.add("hidden");
   document.getElementById("tramT3").classList.add("hidden");
@@ -2380,10 +2742,13 @@ renderLine7Departures();
 renderLine8Departures();
 renderLine10Departures();
 renderLine11Departures();
+renderLine12Departures();
+renderLine13Departures();
 renderLine18Departures();
 renderLine1NDepartures();
 renderLine5NDepartures();
 renderLine8NDepartures();
+renderLine9NDepartures();
 renderT2Departures();
 renderT3Departures();
 </script>
