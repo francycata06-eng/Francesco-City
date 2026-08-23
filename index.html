@@ -951,26 +951,23 @@ const line13DataAndata = [
   { name: "Idrizi", offset: 24 },
   { name: "Lungomare Iacopini/Idrizi", offset: 26 },
   { name: "Lungomare Iacopini/De Marco", offset: 30 },
-  { name: "Lungomare/Iacopini Altobelli", offset: 34 },
+  { name: "Lungomare Iacopini/Altobelli", offset: 34 },
   { name: "Melideo", offset: 38 },
   { name: "Silvestrelli", offset: 45 }
 ];
 
-const line13DataRitorno = [];
-let currentOffset13 = 0;
-const reversedRaw13 = [...line13DataAndata].reverse();
-
-for (let i = 0; i < reversedRaw13.length; i++) {
-  if (i === 0) {
-    line13DataRitorno.push({ name: reversedRaw13[i].name, offset: 0 });
-  } else {
-    const prevOriginalOffset = line13DataAndata.find(s => s.name === reversedRaw13[i-1].name).offset;
-    const currOriginalOffset = line13DataAndata.find(s => s.name === reversedRaw13[i].name).offset;
-    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
-    currentOffset13 += diff;
-    line13DataRitorno.push({ name: reversedRaw13[i].name, offset: currentOffset13 });
-  }
-}
+const line13DataRitorno = [
+  { name: "Silvestrelli", offset: 0 },
+  { name: "Melideo", offset: 7 },
+  { name: "Lungomare Iacopini/Altobelli", offset: 11 },
+  { name: "Lungomare Iacopini/De Marco", offset: 15 },
+  { name: "Lungomare Iacopini/Idrizi", offset: 19 },
+  { name: "Idrizi", offset: 21 },
+  { name: "Idrizi/Chionne", offset: 24 },
+  { name: "Chionne", offset: 29 },
+  { name: "Schintu/Chionne (H)", offset: 33 },
+  { name: "Schintu (H)", offset: 36 }
+];
 
 const line13Orari = {
   feriale: {
