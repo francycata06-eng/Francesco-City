@@ -161,7 +161,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <body>
 <header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
 <main>
-<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 14</b>, <b>Linea 17</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
 
 <section id="home">
 <h2>Linee autobus</h2>
@@ -540,6 +540,66 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     <div class="notice">
       <h4>📌 Bacheca notizie Linea 13</h4>
       <span>5/5/1: Istituzione linea 13 per nuovo quartiere "Schaffler"</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 14 -->
+<section id="line14" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 14</h2><div id="line14-subtitle">Stz. Di Biagio Ovest ➔ Proietti</div></div><div class="badge bus">14</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn" onclick="toggleLine14Direction()">🔄 Cambia Direzione</button>
+    <h3 id="line14-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line14-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-14" class="switch-btn active" onclick="setLine14DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-14" class="switch-btn" onclick="setLine14DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line14-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 14</h4>
+      <span>15/6/1 : trasformazione T1 in linea bus 14</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 17 -->
+<section id="line17" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 17</h2><div id="line17-subtitle">Lelli Chiesa ➔ Taroralia</div></div><div class="badge bus">17</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn" onclick="toggleLine17Direction()">🔄 Cambia Direzione</button>
+    <h3 id="line17-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line17-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-17" class="switch-btn active" onclick="setLine17DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-17" class="switch-btn" onclick="setLine17DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line17-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 17</h4>
+      <span>4/7/1 : istituzione linea 17 tra Lelli Chiesa e Taroralia</span>
     </div>
   </div>
 </div>
@@ -1024,6 +1084,188 @@ function setLine13DayType(type) {
   document.getElementById("btn-feriale-13").classList.toggle("active", type === 'feriale');
   document.getElementById("btn-festivo-13").classList.toggle("active", type === 'festivo');
   renderLine13Departures();
+}
+
+/* ================= LINEA 14 ================= */
+const line14DataAndata = [
+  { name: "Stz. Di Biagio Ovest", offset: 0 },
+  { name: "Mele", offset: 3 },
+  { name: "Di Biagio/Russo", offset: 6 },
+  { name: "Pellegrino/Di Biagio", offset: 10 },
+  { name: "Cirillo", offset: 13 },
+  { name: "Novelli/Trapani", offset: 17 },
+  { name: "Novelli/Corbo", offset: 21 },
+  { name: "Novelli/Vicentini", offset: 26 },
+  { name: "De Lellis/Novelli", offset: 28 },
+  { name: "Baietti", offset: 36 },
+  { name: "Bruni/Luci", offset: 38 },
+  { name: "Spinozi/Buonfrate", offset: 41 },
+  { name: "Proietti", offset: 43 }
+];
+
+const line14DataRitorno = [];
+let currentOffset14 = 0;
+const reversedRaw14 = [...line14DataAndata].reverse();
+
+for (let i = 0; i < reversedRaw14.length; i++) {
+  if (i === 0) {
+    line14DataRitorno.push({ name: reversedRaw14[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line14DataAndata.find(s => s.name === reversedRaw14[i-1].name).offset;
+    const currOriginalOffset = line14DataAndata.find(s => s.name === reversedRaw14[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset14 += diff;
+    line14DataRitorno.push({ name: reversedRaw14[i].name, offset: currentOffset14 });
+  }
+}
+
+const line14BaseOrari = {
+  andata: ["06:00", "06:35", "07:10", "07:45", "08:20", "08:55", "09:30", "10:05", "10:40", "11:15", "11:50", "12:25", "13:20", "14:10", "15:00", "15:50", "16:40", "17:30", "18:00", "18:35", "19:10", "19:45", "20:15", "21:25", "22:00", "22:50", "23:30"],
+  ritorno: ["06:55", "07:30", "08:05", "08:40", "09:15", "09:50", "10:25", "11:00", "11:35", "12:10", "12:40", "13:15", "14:10", "15:00", "15:50", "16:40", "17:30", "18:25", "18:55", "19:30", "20:05", "20:40", "21:15", "22:10", "22:50", "23:40", "00:15"]
+};
+
+const line14Orari = {
+  feriale: line14BaseOrari,
+  festivo: line14BaseOrari
+};
+
+let line14Direction = "andata";
+let line14DayType = "feriale";
+
+function renderLine14Departures() {
+  const depContainer = document.getElementById("line14-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line14Orari[line14DayType][line14Direction];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip14(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip14(currentDepartures[0]);
+  }
+}
+
+function loadTrip14(startTime) {
+  const currentData = line14Direction === "andata" ? line14DataAndata : line14DataRitorno;
+  document.getElementById("line14-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line14-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line14-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function toggleLine14Direction() {
+  line14Direction = (line14Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("line14-subtitle").innerText = line14Direction === "andata" ? "Stz. Di Biagio Ovest ➔ Proietti" : "Proietti ➔ Stz. Di Biagio Ovest";
+  renderLine14Departures();
+}
+
+function setLine14DayType(type) {
+  line14DayType = type;
+  document.getElementById("btn-feriale-14").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-14").classList.toggle("active", type === 'festivo');
+  renderLine14Departures();
+}
+
+/* ================= LINEA 17 ================= */
+const line17DataAndata = [
+  { name: "Lelli Chiesa", offset: 0 },
+  { name: "Francia/Ursini", offset: 6 },
+  { name: "Francia", offset: 10 },
+  { name: "Procesi/Francia", offset: 15 },
+  { name: "Procesi/Feola", offset: 20 },
+  { name: "Suzuki/Chierchia", offset: 27 },
+  { name: "Suzuki/Kudo", offset: 32 },
+  { name: "Suzuki/Araide", offset: 35 },
+  { name: "Tsuburaya", offset: 39 },
+  { name: "Kojima/Tsuburaya", offset: 43 },
+  { name: "Haibara", offset: 46 },
+  { name: "Pavone", offset: 53 },
+  { name: "Maggioli/Pavone", offset: 58 },
+  { name: "Sorrentino/Santa Maria", offset: 64 },
+  { name: "Sorrentino/Taroralia", offset: 68 },
+  { name: "Taroralia Nord", offset: 72 },
+  { name: "Taroralia", offset: 76 }
+];
+
+const line17DataRitorno = [];
+let currentOffset17 = 0;
+const reversedRaw17 = [...line17DataAndata].reverse();
+
+for (let i = 0; i < reversedRaw17.length; i++) {
+  if (i === 0) {
+    line17DataRitorno.push({ name: reversedRaw17[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line17DataAndata.find(s => s.name === reversedRaw17[i-1].name).offset;
+    const currOriginalOffset = line17DataAndata.find(s => s.name === reversedRaw17[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset17 += diff;
+    line17DataRitorno.push({ name: reversedRaw17[i].name, offset: currentOffset17 });
+  }
+}
+
+const line17BaseOrari = {
+  andata: ["06:00", "07:10", "08:20", "09:30", "10:40", "11:50", "13:00", "14:10", "15:20", "16:30", "17:40", "18:50", "20:00", "21:15", "22:45"],
+  ritorno: ["07:45", "08:55", "10:05", "11:15", "12:25", "13:35", "14:45", "15:55", "17:05", "18:15", "19:25", "20:35", "21:45", "23:00", "00:15"]
+};
+
+const line17Orari = {
+  feriale: line17BaseOrari,
+  festivo: line17BaseOrari
+};
+
+let line17Direction = "andata";
+let line17DayType = "feriale";
+
+function renderLine17Departures() {
+  const depContainer = document.getElementById("line17-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line17Orari[line17DayType][line17Direction];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip17(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip17(currentDepartures[0]);
+  }
+}
+
+function loadTrip17(startTime) {
+  const currentData = line17Direction === "andata" ? line17DataAndata : line17DataRitorno;
+  document.getElementById("line17-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line17-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line17-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function toggleLine17Direction() {
+  line17Direction = (line17Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("line17-subtitle").innerText = line17Direction === "andata" ? "Lelli Chiesa ➔ Taroralia" : "Taroralia ➔ Lelli Chiesa";
+  renderLine17Departures();
+}
+
+function setLine17DayType(type) {
+  line17DayType = type;
+  document.getElementById("btn-feriale-17").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-17").classList.toggle("active", type === 'festivo');
+  renderLine17Departures();
 }
 
 /* ================= LINEA 2 ================= */
@@ -2496,7 +2738,7 @@ function renderT3Departures() {
 const busContainer = document.getElementById("bus-lines");
 for(let i=1; i<=19; i++){
   const b = document.createElement("button");
-  const isActive = (i >= 1 && i <= 8 || i === 10 || i === 11 || i === 12 || i === 13 || i === 18);
+  const isActive = (i >= 1 && i <= 8 || i === 10 || i === 11 || i === 12 || i === 13 || i === 14 || i === 17 || i === 18);
   b.className = "line bus" + (isActive ? " active" : "");
   
   if (i === 9) {
@@ -2526,6 +2768,10 @@ for(let i=1; i<=19; i++){
     b.innerHTML = `Linea 12<span>Circolare Agasa</span>`;
   } else if (i === 13) {
     b.innerHTML = `Linea 13<span>Schintu ⇄ Silvestrelli</span>`;
+  } else if (i === 14) {
+    b.innerHTML = `Linea 14<span>Stz. Di Biagio Ovest ⇄ Proietti</span>`;
+  } else if (i === 17) {
+    b.innerHTML = `Linea 17<span>Lelli Chiesa ⇄ Taroralia</span>`;
   } else if (i === 18) {
     b.innerHTML = `Linea 18<span>Circolare Cala di Bratton</span>`;
   } else {
@@ -2546,6 +2792,8 @@ for(let i=1; i<=19; i++){
     if(i === 11) showLine11();
     if(i === 12) showLine12();
     if(i === 13) showLine13();
+    if(i === 14) showLine14();
+    if(i === 17) showLine17();
     if(i === 18) showLine18();
   };
   busContainer.appendChild(b);
@@ -2664,6 +2912,16 @@ function showLine13(){
   document.getElementById("line13").classList.remove("hidden");
 }
 
+function showLine14(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line14").classList.remove("hidden");
+}
+
+function showLine17(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line17").classList.remove("hidden");
+}
+
 function showLine18(){
   document.getElementById("home").classList.add("hidden");
   document.getElementById("line18").classList.remove("hidden");
@@ -2718,6 +2976,8 @@ function showHome(){
   document.getElementById("line11").classList.add("hidden");
   document.getElementById("line12").classList.add("hidden");
   document.getElementById("line13").classList.add("hidden");
+  document.getElementById("line14").classList.add("hidden");
+  document.getElementById("line17").classList.add("hidden");
   document.getElementById("line18").classList.add("hidden");
   document.getElementById("line1N").classList.add("hidden");
   document.getElementById("line5N").classList.add("hidden");
@@ -2741,6 +3001,8 @@ renderLine10Departures();
 renderLine11Departures();
 renderLine12Departures();
 renderLine13Departures();
+renderLine14Departures();
+renderLine17Departures();
 renderLine18Departures();
 renderLine1NDepartures();
 renderLine5NDepartures();
