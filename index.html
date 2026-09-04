@@ -161,7 +161,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <body>
 <header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
 <main>
-<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 14</b>, <b>Linea 17</b>, <b>Linea 18</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 14</b>, <b>Linea 17</b>, <b>Linea 18</b>, <b>Linea 19</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
 
 <section id="home">
 <h2>Linee autobus</h2>
@@ -600,6 +600,35 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     <div class="notice">
       <h4>📌 Bacheca notizie Linea 17</h4>
       <span>4/7/1 : istituzione linea 17 tra Lelli Chiesa e Taroralia</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 19 -->
+<section id="line19" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 19</h2><div>Circolare Barbuto</div></div><div class="badge bus">19</div></div>
+
+<div class="line-content">
+  <div>
+    <h3 id="line19-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line19-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-19" class="switch-btn active" onclick="setLine19DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-19" class="switch-btn" onclick="setLine19DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line19-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 19</h4>
+      <span>20/8/1 : attivazione linea 19 circolare Barbuto</span>
     </div>
   </div>
 </div>
@@ -1266,6 +1295,68 @@ function setLine17DayType(type) {
   document.getElementById("btn-feriale-17").classList.toggle("active", type === 'feriale');
   document.getElementById("btn-festivo-17").classList.toggle("active", type === 'festivo');
   renderLine17Departures();
+}
+
+/* ================= LINEA 19 ================= */
+const line19StopsData = [
+  { name: "Barbuto", offset: 0 },
+  { name: "Ciavarella/Menicocci", offset: 3 },
+  { name: "Ciavarella/Bellò", offset: 7 },
+  { name: "Ciavarella/Torresi", offset: 10 },
+  { name: "Lo Torto Pozzo/Ciavarella", offset: 14 },
+  { name: "Lo Torto Pozzo/Tua", offset: 18 },
+  { name: "Lo Torto Pozzo/Canuto", offset: 23 },
+  { name: "Lo Torto Pozzo/Flanderson", offset: 29 },
+  { name: "Lo Torto Pozzo/Canuto", offset: 37 },
+  { name: "Lo Torto Pozzo/Tua", offset: 42 },
+  { name: "Lo Torto Pozzo/Ciavarella", offset: 47 },
+  { name: "Ciavarella/Torresi", offset: 51 },
+  { name: "Ciavarella/Bellò", offset: 56 },
+  { name: "Ciavarella/Menicocci", offset: 60 },
+  { name: "Barbuto", offset: 64 }
+];
+
+const line19Orari = {
+  feriale: ["06:00", "07:20", "08:40", "10:00", "11:20", "12:40", "14:00", "15:20", "16:40", "18:00", "19:20", "20:40", "22:00", "23:40"],
+  festivo: ["06:00", "07:50", "09:40", "11:30", "13:20", "15:10", "17:00", "19:00", "21:00", "23:40"]
+};
+
+let line19DayType = "feriale";
+
+function renderLine19Departures() {
+  const depContainer = document.getElementById("line19-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line19Orari[line19DayType];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip19(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip19(currentDepartures[0]);
+  }
+}
+
+function loadTrip19(startTime) {
+  document.getElementById("line19-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line19-stops").innerHTML = line19StopsData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line19-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function setLine19DayType(type) {
+  line19DayType = type;
+  document.getElementById("btn-feriale-19").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-19").classList.toggle("active", type === 'festivo');
+  renderLine19Departures();
 }
 
 /* ================= LINEA 2 ================= */
@@ -2738,7 +2829,7 @@ function renderT3Departures() {
 const busContainer = document.getElementById("bus-lines");
 for(let i=1; i<=19; i++){
   const b = document.createElement("button");
-  const isActive = (i >= 1 && i <= 8 || i === 10 || i === 11 || i === 12 || i === 13 || i === 14 || i === 17 || i === 18);
+  const isActive = (i >= 1 && i <= 8 || i === 10 || i === 11 || i === 12 || i === 13 || i === 14 || i === 17 || i === 18 || i === 19);
   b.className = "line bus" + (isActive ? " active" : "");
   
   if (i === 9) {
@@ -2774,6 +2865,8 @@ for(let i=1; i<=19; i++){
     b.innerHTML = `Linea 17<span>Lelli Chiesa ⇄ Taroralia</span>`;
   } else if (i === 18) {
     b.innerHTML = `Linea 18<span>Circolare Cala di Bratton</span>`;
+  } else if (i === 19) {
+    b.innerHTML = `Linea 19<span>Circolare Barbuto</span>`;
   } else {
     b.innerHTML = `Linea ${i}<span>In costruzione</span>`;
   }
@@ -2795,6 +2888,7 @@ for(let i=1; i<=19; i++){
     if(i === 14) showLine14();
     if(i === 17) showLine17();
     if(i === 18) showLine18();
+    if(i === 19) showLine19();
   };
   busContainer.appendChild(b);
 }
@@ -2927,6 +3021,11 @@ function showLine18(){
   document.getElementById("line18").classList.remove("hidden");
 }
 
+function showLine19(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line19").classList.remove("hidden");
+}
+
 function showLine1N(){
   document.getElementById("home").classList.add("hidden");
   document.getElementById("line1N").classList.remove("hidden");
@@ -2979,6 +3078,7 @@ function showHome(){
   document.getElementById("line14").classList.add("hidden");
   document.getElementById("line17").classList.add("hidden");
   document.getElementById("line18").classList.add("hidden");
+  document.getElementById("line19").classList.add("hidden");
   document.getElementById("line1N").classList.add("hidden");
   document.getElementById("line5N").classList.add("hidden");
   document.getElementById("line8N").classList.add("hidden");
@@ -3004,6 +3104,7 @@ renderLine13Departures();
 renderLine14Departures();
 renderLine17Departures();
 renderLine18Departures();
+renderLine19Departures();
 renderLine1NDepartures();
 renderLine5NDepartures();
 renderLine8NDepartures();
