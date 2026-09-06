@@ -161,7 +161,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <body>
 <header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
 <main>
-<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 1</b>, <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 14</b>, <b>Linea 17</b>, <b>Linea 18</b>, <b>Linea 19</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 14</b>, <b>Linea 17</b>, <b>Linea 18</b>, <b>Linea 19</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
 
 <section id="home">
 <h2>Linee autobus</h2>
@@ -171,31 +171,15 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <div class="grid" id="tram-lines"></div>
 </section>
 
-<!-- SEZIONE LINEA 1 -->
+<!-- SEZIONE LINEA 1 (soppressa) -->
 <section id="line1" class="hidden">
 <button class="back" onclick="showHome()">← Tutte le linee</button>
 <div class="card">
-<div class="route"><div><h2 style="margin:0">Linea 1</h2><div>Circolare Sardella</div></div><div class="badge bus">1</div></div>
+<div class="route"><div><h2 style="margin:0">Linea 1</h2><div>Soppressa</div></div><div class="badge bus" style="background:#b0b0b0">1</div></div>
 
-<div class="line-content">
-  <div>
-    <h3 id="line1-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
-    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
-    <tbody id="line1-stops"></tbody></table>
-  </div>
-  <div>
-    <div class="switch-container">
-      <button id="btn-feriale-1" class="switch-btn active" onclick="setLine1DayType('feriale')">📅 Feriale (Lun-Sab)</button>
-      <button id="btn-festivo-1" class="switch-btn" onclick="setLine1DayType('festivo')">☀️ Festivi</button>
-    </div>
-    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
-    <div id="line1-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
-    
-    <div class="notice">
-      <h4>📌 Bacheca notizie Linea 1</h4>
-      <span>Servizio circolare<br>3/1/1 Istituzione linea<br>28/1/1: linea 1 diventa circolare con capolinea unico a Sardella</span>
-    </div>
-  </div>
+<div class="notice">
+  <h4>📌 Bacheca notizie Linea 1</h4>
+  <span>Servizio circolare<br>3/1/1 Istituzione linea<br>28/1/1: linea 1 diventa circolare con capolinea unico a Sardella<br>24/8/1 : linea soppressa e integrata nella linea 4</span>
 </div>
 </div>
 </section>
@@ -269,11 +253,10 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <section id="line4" class="hidden">
 <button class="back" onclick="showHome()">← Tutte le linee</button>
 <div class="card">
-<div class="route"><div><h2 style="margin:0">Linea 4</h2><div id="line4-subtitle">Stz. Di Biagio Ovest ➔ Alessandri</div></div><div class="badge bus">4</div></div>
+<div class="route"><div><h2 style="margin:0">Linea 4</h2><div>Circolare Stz. Di Biagio Ovest</div></div><div class="badge bus">4</div></div>
 
 <div class="line-content">
   <div>
-    <button class="control-btn" onclick="toggleLine4Direction()">🔄 Cambia Direzione</button>
     <h3 id="line4-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
     <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
     <tbody id="line4-stops"></tbody></table>
@@ -288,7 +271,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     
     <div class="notice">
       <h4>📌 Bacheca notizie Linea 4</h4>
-      <span>20/1/1 : Istituzione linea.</span>
+      <span>20/1/1 : Istituzione linea.<br>24/8/1 : linea 4 diventa circolare con unico capolinea a Stz. Di Biagio Ovest, transita anche solo al ritorno per scuola Di Biagio</span>
     </div>
   </div>
 </div>
@@ -1683,54 +1666,45 @@ function updateLine3Subtitles() {
 }
 
 /* ================= LINEA 4 ================= */
-const line4DataAndata = [
-  { name: "Stz. Di Biagio Ovest", offset: 0 },
+const line4StopsData = [
+  { name: "Stz. Di Biagio Ovest (A)", offset: 0 },
   { name: "Mele", offset: 2 },
-  { name: "Cirulli/Russo", offset: 6 },
-  { name: "Faustini/Sabatini", offset: 9 },
-  { name: "Casorelli", offset: 13 },
-  { name: "Loveri", offset: 20 },
-  { name: "Carrubba/Zummo", offset: 24 },
-  { name: "Novelli/Corbo", offset: 27 },
-  { name: "Novelli/Vicentini", offset: 29 },
-  { name: "Alessandri", offset: 34 }
+  { name: "Cirulli/Russo", offset: 7 },
+  { name: "Faustini/Sabatini", offset: 11 },
+  { name: "Casorelli", offset: 16 },
+  { name: "Loveri", offset: 22 },
+  { name: "Carrubba/Zummo", offset: 26 },
+  { name: "Novelli/Corbo", offset: 30 },
+  { name: "Bulgarelli", offset: 35 },
+  { name: "Vicentini/Bulgarelli", offset: 39 },
+  { name: "Novelli/Vicentini", offset: 41 },
+  { name: "Ple. Alessandri", offset: 46 },
+  { name: "Novelli/Vicentini", offset: 49 },
+  { name: "Novelli/Corbo", offset: 54 },
+  { name: "Carrubba/Zummo", offset: 58 },
+  { name: "Loveri", offset: 63 },
+  { name: "Casorelli", offset: 69 },
+  { name: "Faustini/Sabatini", offset: 73 },
+  { name: "Cirulli/Russo", offset: 77 },
+  { name: "Di Biagio/Russo", offset: 81 },
+  { name: "Sardella", offset: 87 },
+  { name: "Russo/Baroncelli", offset: 92 },
+  { name: "Mele", offset: 97 },
+  { name: "Stz. Di Biagio Ovest (A)", offset: 101 }
 ];
 
-const line4DataRitorno = [];
-let currentOffset4 = 0;
-const reversedRaw4 = [...line4DataAndata].reverse();
-
-for (let i = 0; i < reversedRaw4.length; i++) {
-  if (i === 0) {
-    line4DataRitorno.push({ name: reversedRaw4[i].name, offset: 0 });
-  } else {
-    const prevOriginalOffset = line4DataAndata.find(s => s.name === reversedRaw4[i-1].name).offset;
-    const currOriginalOffset = line4DataAndata.find(s => s.name === reversedRaw4[i].name).offset;
-    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
-    currentOffset4 += diff;
-    line4DataRitorno.push({ name: reversedRaw4[i].name, offset: currentOffset4 });
-  }
-}
-
 const line4Orari = {
-  feriale: {
-    andata: ["06:00", "07:20", "09:00", "10:40", "12:20", "14:00", "15:35", "17:05", "18:50", "20:30", "22:00", "23:20"],
-    ritorno: ["06:40", "08:10", "09:50", "11:30", "13:10", "14:50", "16:20", "18:00", "19:40", "21:15", "22:40", "23:55"]
-  },
-  festivo: {
-    andata: ["06:00", "07:40", "09:20", "11:00", "12:50", "14:40", "16:30", "18:20", "20:10", "21:50", "23:20"],
-    ritorno: ["06:50", "08:30", "10:10", "11:55", "13:45", "15:35", "17:25", "19:15", "21:00", "22:40", "00:00"]
-  }
+  feriale: ["06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "00:00"],
+  festivo: ["06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00", "00:00"]
 };
 
-let line4Mode = "feriale"; 
-let line4Direction = "andata";
+let line4Mode = "feriale";
 
 function renderLine4Departures() {
   const depContainer = document.getElementById("line4-departures");
   depContainer.innerHTML = "";
   
-  const currentDepartures = line4Orari[line4Mode][line4Direction];
+  const currentDepartures = line4Orari[line4Mode];
   
   currentDepartures.forEach(time => {
     const btn = document.createElement("div");
@@ -1746,22 +1720,14 @@ function renderLine4Departures() {
 }
 
 function loadTrip4(startTime) {
-  const currentData = line4Direction === "andata" ? line4DataAndata : line4DataRitorno;
-
   document.getElementById("line4-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
-  document.getElementById("line4-stops").innerHTML = currentData.map(s => 
+  document.getElementById("line4-stops").innerHTML = line4StopsData.map(s => 
     `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
   ).join("");
   
   document.querySelectorAll("#line4-departures .time-btn").forEach(btn => {
     btn.classList.toggle("selected-bus", btn.innerText === startTime);
   });
-}
-
-function toggleLine4Direction() {
-  line4Direction = (line4Direction === "andata") ? "ritorno" : "andata";
-  document.getElementById("line4-subtitle").innerText = line4Direction === "andata" ? "Stz. Di Biagio Ovest ➔ Alessandri" : "Alessandri ➔ Stz. Di Biagio Ovest";
-  renderLine4Departures();
 }
 
 function setLine4Type(type) {
@@ -2836,13 +2802,14 @@ for(let i=1; i<=19; i++){
     b.className = "line bus suppressed";
     b.innerHTML = `Linea 9<span>Soppressa</span>`;
   } else if (i === 1) {
-    b.innerHTML = `Linea 1<span>Circolare Sardella</span>`;
+    b.className = "line bus suppressed";
+    b.innerHTML = `Linea 1<span>Soppressa</span>`;
   } else if (i === 2) {
     b.innerHTML = `Linea 2<span>Edgeworth ⇄ Bassino</span>`;
   } else if (i === 3) {
     b.innerHTML = `Linea 3<span>Stz. Di Biagio Ovest ⇄ Edogawa</span>`;
   } else if (i === 4) {
-    b.innerHTML = `Linea 4<span>Stz. Di Biagio Ovest ➔ Alessandri</span>`;
+    b.innerHTML = `Linea 4<span>Circolare Stz. Di Biagio Ovest</span>`;
   } else if (i === 5) {
     b.innerHTML = `Linea 5<span>Circolare Vannucchi</span>`;
   } else if (i === 6) {
@@ -3089,7 +3056,6 @@ function showHome(){
   document.getElementById("home").classList.remove("hidden");
 }
 
-renderLine1Departures();
 renderLine2Departures();
 renderLine3Departures();
 renderLine4Departures();
