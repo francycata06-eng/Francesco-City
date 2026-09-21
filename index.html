@@ -150,6 +150,63 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
   border-color: #351c75;
 }
 
+
+/* ===== Ricerca per fermata ===== */
+#home-fermata-btn.hidden,#home-tip.hidden{display:none!important}
+.line-dot{
+  width:38px;height:38px;flex:0 0 38px;
+  border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--c,#16834a);color:var(--t,#fff);
+  font-weight:800;font-size:14px;line-height:1;letter-spacing:-.02em;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.14);
+  text-shadow:var(--ts,none);
+  user-select:none;
+}
+.line-dot.sm{width:30px;height:30px;flex-basis:30px;font-size:12px}
+
+.fs-search{margin-bottom:14px}
+.fs-search label{display:block;font-weight:700;margin-bottom:6px;font-size:14px}
+.fs-inputwrap{position:relative}
+.fs-inputwrap input{width:100%;padding:12px 40px 12px 12px;border-radius:10px;border:1px solid #d0d8d4;font-size:16px;font-family:inherit;background:white;color:inherit}
+.fs-inputwrap input:focus{outline:2px solid #16834a;outline-offset:-1px;border-color:#16834a}
+.fs-clear{position:absolute;right:4px;top:4px;width:36px;height:36px;border:0;background:transparent;color:#68736d;font-size:16px;cursor:pointer;border-radius:8px}
+.fs-clear:hover{background:#f3f5f4}
+.fs-suggest{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:20;margin:0;padding:4px;list-style:none;background:white;border:1px solid #d0d8d4;border-radius:12px;box-shadow:0 8px 24px #0002;max-height:260px;overflow-y:auto}
+.fs-suggest li{padding:11px 10px;border-radius:8px;cursor:pointer;font-size:15px}
+.fs-suggest li:hover,.fs-suggest li.active{background:#e8f3ec}
+.fs-suggest li.none{color:#68736d;cursor:default}
+.fs-suggest li.none:hover{background:transparent}
+
+.fs-timerow{display:flex;align-items:center;gap:8px;margin:12px 0 14px}
+.fs-timerow label{font-weight:700;font-size:14px;white-space:nowrap}
+.fs-timerow input{flex:1;min-width:0;padding:8px 6px;border-radius:8px;border:1px solid #d0d8d4;font-size:16px;font-family:inherit}
+.fs-now{width:auto;margin:0;padding:9px 10px;border:1px solid #16834a;background:#f3f5f4;color:#16834a;border-radius:10px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap}
+
+/* Filtri linea / direzione: compatti, sopra i risultati */
+.fs-filters{margin:0 0 4px}
+.fs-filters:not(:empty){padding-bottom:10px;border-bottom:1px solid #e6eae7}
+.lf-row{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+.lf-chip{border:0;background:none;padding:3px;border-radius:50%;cursor:pointer;line-height:0;-webkit-tap-highlight-color:transparent}
+.lf-chip .line-dot{transition:opacity .15s ease}
+.lf-chip.on .line-dot{box-shadow:0 0 0 2px #fff,0 0 0 4px #18201c}
+.lf-row.has-sel .lf-chip:not(.on) .line-dot{opacity:.4}
+.pill{border:1px solid #cfd8d3;background:#f3f5f4;color:#18201c;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;line-height:1.2}
+.pill.on{background:#18201c;border-color:#18201c;color:white}
+.df-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+.df-row .pill{font-size:12px;padding:5px 10px}
+.df-row .pill.on{background:var(--c,#16834a);border-color:rgba(0,0,0,.25);color:var(--t,#fff);text-shadow:var(--ts,none)}
+
+/* Lista arrivi */
+.arr-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #e6eae7}
+.arr-dir{flex:1;min-width:0;font-weight:600;font-size:15px;line-height:1.25;overflow-wrap:anywhere}
+.arr-dir i{font-style:normal;color:#68736d;margin-right:2px}
+.arr-time{text-align:right;flex:0 0 auto;line-height:1.2}
+.arr-time b{display:block;font-size:17px;font-variant-numeric:tabular-nums}
+.arr-time span{display:block;font-size:12px;color:#68736d;margin-top:2px}
+.arr-time span.soon{color:#16834a;font-weight:700}
+.arr-msg{text-align:center;color:#68736d;padding:18px 8px;font-size:14px}
+
 @media(max-width:680px){
   .line-content{ grid-template-columns: 1fr; }
   .grid{ grid-template-columns: 1fr 1fr; }
@@ -161,7 +218,9 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <body>
 <header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
 <main>
-<div style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 14</b>, <b>Linea 15</b>, <b>Linea 16</b>, <b>Linea 17</b>, <b>Linea 18</b>, <b>Linea 19</b>, <b>Linea 20</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+<div id="home-tip" style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 14</b>, <b>Linea 15</b>, <b>Linea 16</b>, <b>Linea 17</b>, <b>Linea 18</b>, <b>Linea 19</b>, <b>Linea 20</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+
+<button id="home-fermata-btn" onclick="showFermate()" style="display:block;width:100%;background:white;border:0;border-radius:14px;padding:16px;margin-bottom:20px;box-shadow:0 2px 8px #0001;font-size:16px;font-weight:800;color:#16834a;cursor:pointer;text-align:left">🔎 Cerca per fermata<span style="display:block;font-weight:500;font-size:13px;color:#68736d;margin-top:4px">Vedi tutti i prossimi arrivi di ogni linea in una fermata</span></button>
 
 <section id="home">
 <h2>Linee autobus</h2>
@@ -181,6 +240,38 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
   <h4>📌 Bacheca notizie Linea 1</h4>
   <span>Servizio circolare<br>3/1/1 Istituzione linea<br>28/1/1: linea 1 diventa circolare con capolinea unico a Sardella<br>24/8/1 : linea soppressa e integrata nella linea 4</span>
 </div>
+</div>
+</section>
+
+<!-- SEZIONE FERMATE (ricerca arrivi su tutte le linee) -->
+<section id="fermate" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">🔎 Arrivi per fermata</h2><div>Prossimi passaggi di tutte le linee in quella fermata</div></div></div>
+
+<div class="fs-search">
+  <label for="fermata-input">Fermata</label>
+  <div class="fs-inputwrap">
+    <input type="text" id="fermata-input" role="combobox" aria-expanded="false" aria-controls="fermata-suggest" aria-autocomplete="list" placeholder="Scrivi il nome della fermata..." autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button type="button" id="fermata-clear" class="fs-clear hidden" aria-label="Cancella fermata">✕</button>
+    <ul id="fermata-suggest" class="fs-suggest hidden" role="listbox"></ul>
+  </div>
+</div>
+
+<div class="switch-container">
+  <button id="btn-fermata-feriale" class="switch-btn active" onclick="setFermataDayType('feriale')">📅 Feriale</button>
+  <button id="btn-fermata-sabato" class="switch-btn" onclick="setFermataDayType('sabato')">🔵 Sabato</button>
+  <button id="btn-fermata-festivo" class="switch-btn" onclick="setFermataDayType('festivo')">☀️ Festivi</button>
+</div>
+
+<div class="fs-timerow">
+  <label for="fermata-time">Da orario:</label>
+  <input type="time" id="fermata-time" onchange="renderFermataArrivi()">
+  <button type="button" class="fs-now" onclick="setFermataNow()">🕐 Adesso</button>
+</div>
+
+<div id="fermata-filters" class="fs-filters"></div>
+<div id="fermata-results" aria-live="polite"></div>
 </div>
 </section>
 
@@ -1038,7 +1129,7 @@ const line12StopsData = [
   { name: "Agasa", offset: 0 },
   { name: "Yamato/Sato", offset: 1 },
   { name: "Yamato/Vineyard", offset: 4 },
-  { name: "Black/Stz. Shinichi Kudo (MB)", offset: 6 },
+  { name: "Black/Stz. Shinichi Kudo (B)", offset: 6 },
   { name: "Furuya (MB)", offset: 11 },
   { name: "Yokomizo", offset: 15 },
   { name: "Starling", offset: 21 },
@@ -3028,7 +3119,7 @@ function setLine9NDayType(type) {
 /* ================= TRAM T2 ================= */
 const t2DataAndata = [
   { name: "Furuya (MB)", offset: 0 },
-  { name: "Black/Stz. Schinichi Kudo", offset: 5 },
+  { name: "Black/Stz. Shinichi Kudo (B)", offset: 5 },
   { name: "Tropeano", offset: 9 },
   { name: "Tropeano/Procesi", offset: 12 },
   { name: "Liverani", offset: 16 },
@@ -3042,7 +3133,7 @@ const t2DataRitorno = [
   { name: "Liverani", offset: 8 },
   { name: "Tropeano/Procesi", offset: 12 },
   { name: "Tropeano", offset: 15 },
-  { name: "Black/Stz. Schinichi Kudo", offset: 19 },
+  { name: "Black/Stz. Shinichi Kudo (B)", offset: 19 },
   { name: "Furuya (MB)", offset: 23 } 
 ];
 
@@ -3411,6 +3502,7 @@ function showTramT3(){
 }
 
 function showHome(){
+  document.getElementById("fermate").classList.add("hidden");
   document.getElementById("line1").classList.add("hidden");
   document.getElementById("line2").classList.add("hidden");
   document.getElementById("line3").classList.add("hidden");
@@ -3438,6 +3530,8 @@ function showHome(){
   document.getElementById("tramT1").classList.add("hidden");
   document.getElementById("tramT2").classList.add("hidden");
   document.getElementById("tramT3").classList.add("hidden");
+  document.getElementById("home-tip").classList.remove("hidden");
+  document.getElementById("home-fermata-btn").classList.remove("hidden");
   document.getElementById("home").classList.remove("hidden");
 }
 
@@ -3465,6 +3559,394 @@ renderLine8NDepartures();
 renderLine9NDepartures();
 renderT2Departures();
 renderT3Departures();
+
+/* ================= RICERCA FERMATE (tutte le linee) ================= */
+function makeStops(names, offsets) {
+  return names.map((name, i) => ({ name, offset: offsets[i] }));
+}
+
+// Registro unificato: una voce per ogni percorso/direzione di ogni linea attiva.
+// Per le linee senza distinzione "sabato" negli orari originali, il sabato
+// eredita gli orari feriali (coerente con le etichette "Feriale (Lun-Sab)" del sito).
+const ALL_ROUTES = [
+  // Linea 2
+  { line: "2", label: "Linea 2", dir: "Edgeworth ➔ Bassino", type: "bus", stops: line2DataAndata, sched: { feriale: line2Orari.andata.feriale, sabato: line2Orari.andata.sabato, festivo: line2Orari.andata.festivo } },
+  { line: "2", label: "Linea 2", dir: "Bassino ➔ Edgeworth", type: "bus", stops: line2DataRitorno, sched: { feriale: line2Orari.ritorno.feriale, sabato: line2Orari.ritorno.sabato, festivo: line2Orari.ritorno.festivo } },
+  { line: "2S", label: "Linea 2 (Scolastica)", dir: "Circolare Edgeworth", type: "bus", stops: line2DataScolastica, sched: { feriale: line2Orari.scolastica.feriale, sabato: line2Orari.scolastica.sabato, festivo: line2Orari.scolastica.festivo } },
+
+  // Linea 3 (feriale/sabato) + 3F (festiva, percorso diverso)
+  { line: "3", label: "Linea 3", dir: "Stz. Di Biagio Ovest ➔ Edogawa", type: "bus", stops: line3DataAndata, sched: { feriale: line3Orari.andata, sabato: line3Orari.andata, festivo: [] } },
+  { line: "3", label: "Linea 3", dir: "Edogawa ➔ Stz. Di Biagio Ovest", type: "bus", stops: line3DataRitorno, sched: { feriale: line3Orari.ritorno, sabato: line3Orari.ritorno, festivo: [] } },
+  { line: "3F", label: "Linea 3 Festiva", dir: "Stz. Di Biagio Ovest ➔ Edgeworth", type: "bus", stops: line3FestivaDataAndata, sched: { feriale: [], sabato: [], festivo: line3FestivaOrari.andata } },
+  { line: "3F", label: "Linea 3 Festiva", dir: "Edgeworth ➔ Stz. Di Biagio Ovest", type: "bus", stops: line3FestivaDataRitorno, sched: { feriale: [], sabato: [], festivo: line3FestivaOrari.ritorno } },
+
+  // Linea 4 (circolare)
+  { line: "4", label: "Linea 4", dir: "Circolare Stz. Di Biagio Ovest", type: "bus", stops: line4StopsData, sched: { feriale: line4Orari.feriale, sabato: line4Orari.feriale, festivo: line4Orari.festivo } },
+
+  // Linea 5 (circolare, solo festiva - badge 5F)
+  { line: "5F", label: "Linea 5 (5F)", dir: "Circolare Vannucchi", type: "bus", stops: line5StopsData, sched: { feriale: line5Orari.feriale, sabato: line5Orari.feriale, festivo: line5Orari.festivo } },
+
+  // Linea 6
+  { line: "6", label: "Linea 6", dir: "Loveri ➔ P.za Longo", type: "bus", stops: line6DataAndata, sched: { feriale: line6Orari.andata.feriale, sabato: line6Orari.andata.feriale, festivo: line6Orari.andata.festivo } },
+  { line: "6", label: "Linea 6", dir: "P.za Longo ➔ Loveri", type: "bus", stops: line6DataRitorno, sched: { feriale: line6Orari.ritorno.feriale, sabato: line6Orari.ritorno.feriale, festivo: line6Orari.ritorno.festivo } },
+
+  // Linea 7
+  { line: "7", label: "Linea 7", dir: "Stz. Vallecalma ➔ Yamagishi/Amada", type: "bus", stops: line7DataAndata, sched: { feriale: line7Orari.feriale.andata, sabato: line7Orari.feriale.andata, festivo: line7Orari.festivo.andata } },
+  { line: "7", label: "Linea 7", dir: "Yamagishi/Amada ➔ Stz. Vallecalma", type: "bus", stops: line7DataRitorno, sched: { feriale: line7Orari.feriale.ritorno, sabato: line7Orari.feriale.ritorno, festivo: line7Orari.festivo.ritorno } },
+
+  // Linea 8
+  { line: "8", label: "Linea 8", dir: "Ple. Scott ➔ L.go Wallace", type: "bus", stops: line8DataAndata, sched: { feriale: line8Orari.feriale.andata, sabato: line8Orari.feriale.andata, festivo: line8Orari.festivo.andata } },
+  { line: "8", label: "Linea 8", dir: "L.go Wallace ➔ Ple. Scott", type: "bus", stops: line8DataRitorno, sched: { feriale: line8Orari.feriale.ritorno, sabato: line8Orari.feriale.ritorno, festivo: line8Orari.festivo.ritorno } },
+
+  // Linea 10
+  { line: "10", label: "Linea 10", dir: "P.za Nocera ➔ Ple. Scott", type: "bus", stops: line10DataAndata, sched: { feriale: line10Orari.feriale.andata, sabato: line10Orari.feriale.andata, festivo: line10Orari.festivo.andata } },
+  { line: "10", label: "Linea 10", dir: "Ple. Scott ➔ P.za Nocera", type: "bus", stops: line10DataRitorno, sched: { feriale: line10Orari.feriale.ritorno, sabato: line10Orari.feriale.ritorno, festivo: line10Orari.festivo.ritorno } },
+
+  // Linea 11
+  { line: "11", label: "Linea 11", dir: "Caporali ➔ Matsubara", type: "bus", stops: line11DataAndata, sched: { feriale: line11Orari.feriale.andata, sabato: line11Orari.feriale.andata, festivo: line11Orari.festivo.andata } },
+  { line: "11", label: "Linea 11", dir: "Matsubara ➔ Caporali", type: "bus", stops: line11DataRitorno, sched: { feriale: line11Orari.feriale.ritorno, sabato: line11Orari.feriale.ritorno, festivo: line11Orari.festivo.ritorno } },
+
+  // Linea 12 (circolare)
+  { line: "12", label: "Linea 12", dir: "Circolare Agasa", type: "bus", stops: line12StopsData, sched: { feriale: line12Orari.feriale, sabato: line12Orari.feriale, festivo: line12Orari.festivo } },
+
+  // Linea 13
+  { line: "13", label: "Linea 13", dir: "Schintu ➔ Silvestrelli", type: "bus", stops: line13DataAndata, sched: { feriale: line13Orari.feriale.andata, sabato: line13Orari.feriale.andata, festivo: line13Orari.festivo.andata } },
+  { line: "13", label: "Linea 13", dir: "Silvestrelli ➔ Schintu", type: "bus", stops: line13DataRitorno, sched: { feriale: line13Orari.feriale.ritorno, sabato: line13Orari.feriale.ritorno, festivo: line13Orari.festivo.ritorno } },
+
+  // Linea 14
+  { line: "14", label: "Linea 14", dir: "Stz. Di Biagio Ovest ➔ Proietti", type: "bus", stops: line14DataAndata, sched: { feriale: line14Orari.feriale.andata, sabato: line14Orari.feriale.andata, festivo: line14Orari.festivo.andata } },
+  { line: "14", label: "Linea 14", dir: "Proietti ➔ Stz. Di Biagio Ovest", type: "bus", stops: line14DataRitorno, sched: { feriale: line14Orari.feriale.ritorno, sabato: line14Orari.feriale.ritorno, festivo: line14Orari.festivo.ritorno } },
+
+  // Linea 15
+  { line: "15", label: "Linea 15", dir: "Mimì Cirillo ➔ D'Ambrosio", type: "bus", stops: line15DataAndata, sched: { feriale: line15Orari.feriale.andata, sabato: line15Orari.feriale.andata, festivo: line15Orari.festivo.andata } },
+  { line: "15", label: "Linea 15", dir: "D'Ambrosio ➔ Mimì Cirillo", type: "bus", stops: line15DataRitorno, sched: { feriale: line15Orari.feriale.ritorno, sabato: line15Orari.feriale.ritorno, festivo: line15Orari.festivo.ritorno } },
+
+  // Linea 16
+  { line: "16", label: "Linea 16", dir: "Ple. Scott ➔ Mimì Cirillo", type: "bus", stops: line16DataAndata, sched: { feriale: line16Orari.feriale.andata, sabato: line16Orari.feriale.andata, festivo: line16Orari.festivo.andata } },
+  { line: "16", label: "Linea 16", dir: "Mimì Cirillo ➔ Ple. Scott", type: "bus", stops: line16DataRitorno, sched: { feriale: line16Orari.feriale.ritorno, sabato: line16Orari.feriale.ritorno, festivo: line16Orari.festivo.ritorno } },
+
+  // Linea 17
+  { line: "17", label: "Linea 17", dir: "Lelli Chiesa ➔ Taroralia", type: "bus", stops: line17DataAndata, sched: { feriale: line17Orari.feriale.andata, sabato: line17Orari.feriale.andata, festivo: line17Orari.festivo.andata } },
+  { line: "17", label: "Linea 17", dir: "Taroralia ➔ Lelli Chiesa", type: "bus", stops: line17DataRitorno, sched: { feriale: line17Orari.feriale.ritorno, sabato: line17Orari.feriale.ritorno, festivo: line17Orari.festivo.ritorno } },
+
+  // Linea 18 (circolare, formato con array paralleli)
+  { line: "18", label: "Linea 18", dir: "Circolare Cala di Bratton", type: "bus", stops: makeStops(line18Stops, line18Offsets), sched: { feriale: line18Orari.feriale, sabato: line18Orari.feriale, festivo: line18Orari.festivo } },
+
+  // Linea 19 (circolare)
+  { line: "19", label: "Linea 19", dir: "Circolare Barbuto", type: "bus", stops: line19StopsData, sched: { feriale: line19Orari.feriale, sabato: line19Orari.feriale, festivo: line19Orari.festivo } },
+
+  // Linea 20
+  { line: "20", label: "Linea 20", dir: "Ple. Alessandri ➔ Areoporto Ninuccia Scala", type: "bus", stops: line20DataAndata, sched: { feriale: line20Orari.feriale.andata, sabato: line20Orari.feriale.andata, festivo: line20Orari.festivo.andata } },
+  { line: "20", label: "Linea 20", dir: "Areoporto Ninuccia Scala ➔ Ple. Alessandri", type: "bus", stops: line20DataRitorno, sched: { feriale: line20Orari.feriale.ritorno, sabato: line20Orari.feriale.ritorno, festivo: line20Orari.festivo.ritorno } },
+
+  // Linee notturne
+  { line: "1N", label: "Linea 1N", dir: "Sardella ➔ Alessandri", type: "night", stops: line1NDataAndata, sched: { feriale: line1NOrari.feriale.andata, sabato: line1NOrari.feriale.andata, festivo: line1NOrari.festivo.andata } },
+  { line: "1N", label: "Linea 1N", dir: "Alessandri ➔ Sardella", type: "night", stops: line1NDataRitorno, sched: { feriale: line1NOrari.feriale.ritorno, sabato: line1NOrari.feriale.ritorno, festivo: line1NOrari.festivo.ritorno } },
+
+  { line: "5N", label: "Linea 5N", dir: "Vannucchi ➔ Miyano", type: "night", stops: line5NDataAndata, sched: { feriale: line5NOrari.feriale.andata, sabato: line5NOrari.feriale.andata, festivo: line5NOrari.festivo.andata } },
+  { line: "5N", label: "Linea 5N", dir: "Miyano ➔ Vannucchi", type: "night", stops: line5NDataRitorno, sched: { feriale: line5NOrari.feriale.ritorno, sabato: line5NOrari.feriale.ritorno, festivo: line5NOrari.festivo.ritorno } },
+
+  { line: "8N", label: "Linea 8N", dir: "Barbuto ➔ Ple. Scott", type: "night", stops: line8NDataAndata, sched: { feriale: line8NOrari.feriale.andata, sabato: line8NOrari.feriale.andata, festivo: line8NOrari.festivo.andata } },
+  { line: "8N", label: "Linea 8N", dir: "Ple. Scott ➔ Barbuto", type: "night", stops: line8NDataRitorno, sched: { feriale: line8NOrari.feriale.ritorno, sabato: line8NOrari.feriale.ritorno, festivo: line8NOrari.festivo.ritorno } },
+
+  { line: "9N", label: "Linea 9N", dir: "Fusco/Stab. De Felice ➔ Loveri", type: "night", stops: line9NDataAndata, sched: { feriale: line9NOrari.feriale.andata, sabato: line9NOrari.feriale.andata, festivo: line9NOrari.festivo.andata } },
+  { line: "9N", label: "Linea 9N", dir: "Loveri ➔ Fusco/Stab. De Felice", type: "night", stops: line9NDataRitorno, sched: { feriale: line9NOrari.feriale.ritorno, sabato: line9NOrari.feriale.ritorno, festivo: line9NOrari.festivo.ritorno } },
+
+  // Tram
+  { line: "T2", label: "Tram T2", dir: "Furuya (MB) ➔ Ple. Scott", type: "tram", stops: t2DataAndata, sched: { feriale: t2Orari.andata, sabato: t2Orari.andata, festivo: t2Orari.andata } },
+  { line: "T2", label: "Tram T2", dir: "Ple. Scott ➔ Furuya (MB)", type: "tram", stops: t2DataRitorno, sched: { feriale: t2Orari.ritorno, sabato: t2Orari.ritorno, festivo: t2Orari.ritorno } },
+  { line: "T3", label: "Tram T3", dir: "Circolare Stab. De Felice", type: "tram", stops: t3StopsData, sched: { feriale: t3Departures, sabato: t3Departures, festivo: t3Departures } }
+];
+
+/* ---------- Helper ricerca fermate ---------- */
+function fsEsc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function fsNorm(s) {
+  return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+
+// Solo la destinazione ("A ➔ B" -> "B"); per le circolari resta "Circolare X"
+function routeDest(dir) {
+  const parts = dir.split("➔");
+  return parts[parts.length - 1].trim();
+}
+
+// Colori delle linee (2S giallo, 3F/5F azzurro: testo scuro per restare leggibile)
+function lineColors(line, type) {
+  const SHADOW = "0 0 3px rgba(0,0,0,.55), 0 1px 1px rgba(0,0,0,.35)"; // aiuta il bianco su giallo/azzurro
+  if (line === "2S") return { bg: "#ffff00", fg: "#ffffff", ts: SHADOW };
+  if (line === "3F" || line === "5F") return { bg: "#00ffff", fg: "#ffffff", ts: SHADOW };
+  if (type === "night") return { bg: "#351c75", fg: "#ffffff", ts: "none" };
+  if (type === "tram") return { bg: "#ff4c00", fg: "#ffffff", ts: "none" };
+  return { bg: "#16834a", fg: "#ffffff", ts: "none" };
+}
+function lineDotHTML(line, type, extraClass) {
+  const c = lineColors(line, type);
+  return `<span class="line-dot${extraClass ? " " + extraClass : ""}" style="--c:${c.bg};--t:${c.fg};--ts:${c.ts}">${fsEsc(line)}</span>`;
+}
+
+// Ordine: bus (per numero), notturne, tram
+function lineSortKey(l) {
+  const typeRank = { bus: 0, night: 1, tram: 2 }[l.type] ?? 0;
+  const num = parseInt(l.line.replace(/\D/g, ""), 10) || 0;
+  return [typeRank, num, l.line];
+}
+function compareLines(a, b) {
+  const ka = lineSortKey(a), kb = lineSortKey(b);
+  return ka[0] - kb[0] || ka[1] - kb[1] || ka[2].localeCompare(kb[2]);
+}
+
+function waitLabel(diff) {
+  if (diff === 0) return "ora";
+  if (diff < 60) return `tra ${diff} min`;
+  const h = Math.floor(diff / 60), m = diff % 60;
+  return `tra ${h} h` + (m ? ` ${m} min` : "");
+}
+
+/* ---------- Stato ---------- */
+const FERMATA_NAMES = [...new Set(ALL_ROUTES.flatMap(r => r.stops.map(s => s.name)))].sort((a, b) => a.localeCompare(b, "it"));
+const FERMATA_INDEX = FERMATA_NAMES.map(name => ({ name, key: fsNorm(name) }));
+
+let fermataDayType = "feriale";
+let fermataSelected = null;   // nome fermata scelta
+let fermataLine = null;       // filtro linea (null = tutte)
+let fermataDir = null;        // filtro direzione (null = entrambe)
+let suggestItems = [];
+let suggestActive = -1;
+
+const fermataInputEl = document.getElementById("fermata-input");
+const fermataClearEl = document.getElementById("fermata-clear");
+const fermataSuggestEl = document.getElementById("fermata-suggest");
+const fermataFiltersEl = document.getElementById("fermata-filters");
+const fermataResultsEl = document.getElementById("fermata-results");
+
+/* ---------- Ricerca / selezione fermata ---------- */
+function openSuggest() {
+  fermataSuggestEl.classList.remove("hidden");
+  fermataInputEl.setAttribute("aria-expanded", "true");
+}
+function closeSuggest() {
+  fermataSuggestEl.classList.add("hidden");
+  fermataInputEl.setAttribute("aria-expanded", "false");
+  suggestActive = -1;
+}
+
+function renderSuggest() {
+  const q = fermataInputEl.value === fermataSelected ? "" : fsNorm(fermataInputEl.value);
+  const starts = [], contains = [];
+  FERMATA_INDEX.forEach(f => {
+    if (!q || f.key.startsWith(q)) starts.push(f.name);
+    else if (f.key.includes(q)) contains.push(f.name);
+  });
+  suggestItems = [...starts, ...contains].slice(0, 60);
+  suggestActive = -1;
+  fermataSuggestEl.innerHTML = suggestItems.length
+    ? suggestItems.map((n, i) => `<li role="option" data-i="${i}">${fsEsc(n)}</li>`).join("")
+    : `<li class="none">Nessuna fermata trovata</li>`;
+  openSuggest();
+}
+
+function setSuggestActive(i) {
+  const lis = fermataSuggestEl.querySelectorAll("li[data-i]");
+  if (!lis.length) return;
+  suggestActive = (i + lis.length) % lis.length;
+  lis.forEach((li, k) => li.classList.toggle("active", k === suggestActive));
+  lis[suggestActive].scrollIntoView({ block: "nearest" });
+}
+
+function selectFermata(name) {
+  fermataSelected = name;
+  fermataLine = null;
+  fermataDir = null;
+  fermataInputEl.value = name;
+  fermataClearEl.classList.remove("hidden");
+  closeSuggest();
+  fermataInputEl.blur();
+  renderFermataArrivi();
+}
+
+fermataInputEl.addEventListener("input", () => {
+  fermataClearEl.classList.toggle("hidden", !fermataInputEl.value);
+  if (fermataInputEl.value !== fermataSelected) {
+    fermataSelected = null;
+    fermataLine = null;
+    fermataDir = null;
+  }
+  renderSuggest();
+  renderFermataArrivi();
+});
+fermataInputEl.addEventListener("focus", () => {
+  fermataInputEl.select();
+  renderSuggest();
+});
+fermataInputEl.addEventListener("keydown", e => {
+  if (e.key === "ArrowDown") { e.preventDefault(); if (fermataSuggestEl.classList.contains("hidden")) renderSuggest(); setSuggestActive(suggestActive + 1); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); setSuggestActive(suggestActive - 1); }
+  else if (e.key === "Enter") {
+    e.preventDefault();
+    const pick = suggestActive >= 0 ? suggestItems[suggestActive] : suggestItems[0];
+    if (pick) selectFermata(pick);
+  }
+  else if (e.key === "Escape") closeSuggest();
+});
+fermataSuggestEl.addEventListener("mousedown", e => e.preventDefault()); // non far perdere il focus prima del click
+fermataSuggestEl.addEventListener("click", e => {
+  const li = e.target.closest("li[data-i]");
+  if (li) selectFermata(suggestItems[Number(li.dataset.i)]);
+});
+fermataClearEl.addEventListener("click", () => {
+  fermataInputEl.value = "";
+  fermataSelected = null;
+  fermataLine = null;
+  fermataDir = null;
+  fermataClearEl.classList.add("hidden");
+  renderFermataArrivi();
+  fermataInputEl.focus();
+});
+document.addEventListener("click", e => {
+  if (!e.target.closest(".fs-search")) closeSuggest();
+});
+
+/* ---------- Giorno / orario ---------- */
+function setFermataDayType(type) {
+  fermataDayType = type;
+  document.getElementById("btn-fermata-feriale").classList.toggle("active", type === "feriale");
+  document.getElementById("btn-fermata-sabato").classList.toggle("active", type === "sabato");
+  document.getElementById("btn-fermata-festivo").classList.toggle("active", type === "festivo");
+  renderFermataArrivi();
+}
+
+function setFermataNow() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  document.getElementById("fermata-time").value = `${hh}:${mm}`;
+
+  const day = now.getDay(); // 0=domenica, 6=sabato
+  let auto = "feriale";
+  if (day === 0) auto = "festivo";
+  else if (day === 6) auto = "sabato";
+  setFermataDayType(auto);
+}
+
+/* ---------- Calcolo arrivi ---------- */
+function computeFermataArrivals(stopName, refTime) {
+  const refMins = timeToMins(refTime);
+  const out = [];
+  ALL_ROUTES.forEach((route, ri) => {
+    const times = route.sched[fermataDayType] || [];
+    if (!times.length) return;
+    const dest = routeDest(route.dir);
+    const circ = !route.dir.includes("➔");
+    route.stops.forEach(stop => {
+      if (stop.name !== stopName) return;
+      times.forEach(dep => {
+        const arrivalTime = addMinutes(dep, stop.offset);
+        const diff = (timeToMins(arrivalTime) - refMins + 1440) % 1440;
+        out.push({ ri, line: route.line, type: route.type, dest, circ, arrivalTime, diff });
+      });
+    });
+  });
+  out.sort((a, b) => a.diff - b.diff);
+  return out;
+}
+
+/* ---------- Render ---------- */
+function renderFermataArrivi() {
+  const timeInput = document.getElementById("fermata-time").value;
+
+  if (!fermataSelected) {
+    fermataFiltersEl.innerHTML = "";
+    fermataResultsEl.innerHTML = `<div class="arr-msg">${fermataInputEl.value.trim()
+      ? "Seleziona una fermata dall'elenco per vedere gli arrivi"
+      : "Cerca una fermata e selezionala per vedere gli arrivi"}</div>`;
+    return;
+  }
+  if (!timeInput) {
+    fermataFiltersEl.innerHTML = "";
+    fermataResultsEl.innerHTML = `<div class="arr-msg">Seleziona un orario di partenza per la ricerca</div>`;
+    return;
+  }
+
+  const all = computeFermataArrivals(fermataSelected, timeInput);
+  if (!all.length) {
+    fermataFiltersEl.innerHTML = "";
+    fermataResultsEl.innerHTML = `<div class="arr-msg">Nessun arrivo a "${fsEsc(fermataSelected)}" nel giorno selezionato</div>`;
+    return;
+  }
+
+  // Linee che passano in questa fermata (nel giorno selezionato)
+  const lineMap = new Map();
+  all.forEach(a => { if (!lineMap.has(a.line)) lineMap.set(a.line, { line: a.line, type: a.type }); });
+  const lines = [...lineMap.values()].sort(compareLines);
+
+  if (fermataLine && !lineMap.has(fermataLine)) fermataLine = null;
+  const effLine = fermataLine || (lines.length === 1 ? lines[0].line : null);
+
+  // Direzioni (solo destinazione) della linea in esame
+  let dirs = [];
+  if (effLine) {
+    dirs = [...new Set(all.filter(a => a.line === effLine).sort((x, y) => x.ri - y.ri).map(a => a.dest))];
+  }
+  if (fermataDir && !dirs.includes(fermataDir)) fermataDir = null;
+
+  // --- Filtri ---
+  let fh = "";
+  if (lines.length > 1) {
+    fh += `<div class="lf-row${fermataLine ? " has-sel" : ""}" role="group" aria-label="Filtra per linea">
+      <button type="button" class="pill${fermataLine ? "" : " on"}" data-line="" aria-pressed="${!fermataLine}">Tutte</button>
+      ${lines.map(l => {
+        const c = lineColors(l.line, l.type);
+        const on = fermataLine === l.line;
+        return `<button type="button" class="lf-chip${on ? " on" : ""}" data-line="${fsEsc(l.line)}" aria-pressed="${on}" aria-label="Linea ${fsEsc(l.line)}"><span class="line-dot" style="--c:${c.bg};--t:${c.fg};--ts:${c.ts}">${fsEsc(l.line)}</span></button>`;
+      }).join("")}
+    </div>`;
+  }
+  if (effLine && dirs.length > 1) {
+    const info = lineMap.get(effLine);
+    const c = lineColors(info.line, info.type);
+    fh += `<div class="df-row" role="group" aria-label="Filtra per direzione" style="--c:${c.bg};--t:${c.fg};--ts:${c.ts}">
+      ${lineDotHTML(info.line, info.type, "sm")}
+      <button type="button" class="pill${fermataDir ? "" : " on"}" data-dir="" aria-pressed="${!fermataDir}">Entrambe</button>
+      ${dirs.map(d => `<button type="button" class="pill${fermataDir === d ? " on" : ""}" data-dir="${fsEsc(d)}" aria-pressed="${fermataDir === d}">➔ ${fsEsc(d)}</button>`).join("")}
+    </div>`;
+  }
+  fermataFiltersEl.innerHTML = fh;
+
+  // --- Risultati ---
+  const list = all.filter(a => (!fermataLine || a.line === fermataLine) && (!fermataDir || a.dest === fermataDir));
+  fermataResultsEl.innerHTML = list.map(a => `
+    <div class="arr-row">
+      ${lineDotHTML(a.line, a.type)}
+      <div class="arr-dir"><i>${a.circ ? "↻" : "➔"}</i> ${fsEsc(a.dest)}</div>
+      <div class="arr-time"><b>${a.arrivalTime}</b><span class="${a.diff <= 5 ? "soon" : ""}">${waitLabel(a.diff)}</span></div>
+    </div>`).join("");
+}
+
+// Click sui filtri (delegato)
+fermataFiltersEl.addEventListener("click", e => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  if (btn.hasAttribute("data-line")) {
+    const val = btn.dataset.line || null;
+    fermataLine = (val && fermataLine === val) ? null : val; // secondo tocco = deseleziona
+    fermataDir = null;
+  } else if (btn.hasAttribute("data-dir")) {
+    const val = btn.dataset.dir || null;
+    fermataDir = (val && fermataDir === val) ? null : val;
+  } else return;
+  renderFermataArrivi();
+});
+
+function showFermate() {
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("home-tip").classList.add("hidden");
+  document.getElementById("home-fermata-btn").classList.add("hidden");
+  document.getElementById("fermate").classList.remove("hidden");
+  window.scrollTo(0, 0);
+  setFermataNow();
+}
 </script>
 </body>
 </html>
