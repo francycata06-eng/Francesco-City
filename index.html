@@ -207,6 +207,39 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 .arr-time span.soon{color:#16834a;font-weight:700}
 .arr-msg{text-align:center;color:#68736d;padding:18px 8px;font-size:14px}
 
+/* Riga arrivo cliccabile -> dettaglio corsa */
+.arr-row{cursor:pointer;-webkit-tap-highlight-color:rgba(22,131,74,.12);border-radius:8px}
+.arr-row:hover{background:#f3f5f4}
+.arr-row:active{background:#e8f3ec}
+.arr-time{position:relative}
+.arr-time::after{content:"›";position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:#b7c0bb;font-size:20px;font-weight:700}
+.arr-row{padding-right:14px}
+
+/* Modale dettaglio corsa */
+.trip-overlay{position:fixed;inset:0;background:rgba(15,20,17,.5);z-index:100;display:flex;align-items:flex-end;justify-content:center;animation:tripFade .15s ease}
+.trip-overlay.hidden{display:none}
+@keyframes tripFade{from{opacity:0}to{opacity:1}}
+.trip-sheet{background:white;border-radius:16px 16px 0 0;width:100%;max-width:520px;max-height:86vh;display:flex;flex-direction:column;box-shadow:0 -8px 30px #0003;animation:tripUp .18s ease}
+@keyframes tripUp{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media(min-width:560px){.trip-overlay{align-items:center}.trip-sheet{border-radius:16px;max-height:80vh}}
+.trip-head{display:flex;align-items:center;gap:12px;padding:16px 16px 12px;border-bottom:1px solid #e6eae7;flex:0 0 auto}
+.trip-head-info{flex:1;min-width:0}
+.trip-head-info .th-dir{font-weight:800;font-size:16px;line-height:1.25}
+.trip-head-info .th-sub{color:#68736d;font-size:13px;margin-top:2px}
+.trip-close{border:0;background:#f3f5f4;color:#18201c;width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;flex:0 0 auto}
+.trip-close:hover{background:#e6eae7}
+.trip-body{overflow-y:auto;padding:6px 16px 18px}
+.trip-stop{display:flex;align-items:center;gap:12px;padding:9px 0;position:relative}
+.trip-stop .ts-line{flex:0 0 auto;width:2px;align-self:stretch;background:#d5dcd8;position:relative}
+.trip-stop .ts-dot{position:absolute;left:-4px;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;background:#b7c0bb;border:2px solid white;box-shadow:0 0 0 1px #d5dcd8}
+.trip-stop.current .ts-dot{background:var(--c,#16834a);box-shadow:0 0 0 3px color-mix(in srgb, var(--c,#16834a) 25%, transparent)}
+.trip-stop .ts-name{flex:1;min-width:0;font-size:14.5px;overflow-wrap:anywhere}
+.trip-stop.current .ts-name{font-weight:800}
+.trip-stop .ts-time{flex:0 0 auto;font-variant-numeric:tabular-nums;font-weight:700;font-size:14.5px;color:#3a423d}
+.trip-stop.current .ts-time{color:var(--c,#16834a)}
+.trip-stop.current{background:#f3f9f5;border-radius:8px;margin:0 -8px;padding:9px 8px}
+
+
 @media(max-width:680px){
   .line-content{ grid-template-columns: 1fr; }
   .grid{ grid-template-columns: 1fr 1fr; }
@@ -272,6 +305,20 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 
 <div id="fermata-filters" class="fs-filters"></div>
 <div id="fermata-results" aria-live="polite"></div>
+
+<div id="trip-overlay" class="trip-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="trip-title">
+  <div class="trip-sheet">
+    <div class="trip-head">
+      <div id="trip-badge"></div>
+      <div class="trip-head-info">
+        <div id="trip-title" class="th-dir"></div>
+        <div id="trip-sub" class="th-sub"></div>
+      </div>
+      <button type="button" class="trip-close" onclick="closeTripDetail()" aria-label="Chiudi">✕</button>
+    </div>
+    <div id="trip-body" class="trip-body"></div>
+  </div>
+</div>
 </div>
 </section>
 
@@ -832,7 +879,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <section id="line1N" class="hidden">
 <button class="back" onclick="showHome()" style="color:#351c75">← Tutte le linee</button>
 <div class="card">
-<div class="route"><div><h2 style="margin:0">Linea 1N</h2><div id="line1N-subtitle">Sardella ➔ Alessandri</div></div><div class="badge night">1N</div></div>
+<div class="route"><div><h2 style="margin:0">Linea 1N</h2><div id="line1N-subtitle">Sardella ➔ Ple. Alessandri</div></div><div class="badge night">1N</div></div>
 
 <div class="line-content">
   <div>
@@ -1055,7 +1102,7 @@ const line1StopsData = [
   { name: "Bulgarelli", offset: 17 },
   { name: "Vicentini/Bulgarelli", offset: 19 },
   { name: "Novelli/Vicentini", offset: 21 },
-  { name: "Alessandri", offset: 23 },
+  { name: "Ple. Alessandri", offset: 23 },
   { name: "Novelli/Vicentini", offset: 25 },
   { name: "Novelli/Corbo", offset: 28 },
   { name: "Novelli/Trapani", offset: 30 },
@@ -1311,6 +1358,18 @@ for (let i = 0; i < reversedRaw14.length; i++) {
     line14DataRitorno.push({ name: reversedRaw14[i].name, offset: currentOffset14 });
   }
 }
+
+// Modifica percorso: nuova fermata Ple. Alessandri (min 14) prima di Novelli/Vicentini (ora min 16);
+// da Novelli/Vicentini in poi la corsa passa 4 minuti dopo rispetto a prima.
+(function patchLine14Ritorno() {
+  const idxDeLellis = line14DataRitorno.findIndex(s => s.name === "De Lellis/Novelli");
+  line14DataRitorno.splice(idxDeLellis, 0, { name: "Ple. Alessandri", offset: 14 });
+  const idxVic = line14DataRitorno.findIndex(s => s.name === "Novelli/Vicentini");
+  line14DataRitorno[idxVic].offset = 16;
+  for (let i = idxVic + 1; i < line14DataRitorno.length; i++) {
+    line14DataRitorno[i].offset += 4;
+  }
+})();
 
 const line14BaseOrari = {
   andata: ["06:00", "06:35", "07:10", "07:45", "08:20", "08:55", "09:30", "10:05", "10:40", "11:15", "11:50", "12:25", "13:20", "14:10", "15:00", "15:50", "16:40", "17:30", "18:00", "18:35", "19:10", "19:45", "20:15", "21:25", "22:00", "22:50", "23:30"],
@@ -2278,7 +2337,7 @@ const line6DataAndata = [
   { name: "Pistacchio/Ronga", offset: 37 },
   { name: "Papi Dell'Orto/Parco dei Fiori", offset: 42 },
   { name: "Papi Dell'Orto/Pattumelli", offset: 47 },
-  { name: "Pattumelli", offset: 53 },
+  { name: "Pattumelli/Università Belpoggio - Facoltà di Lettere Informatiche", offset: 53 },
   { name: "P.za Longo", offset: 58 }
 ];
 
@@ -2768,7 +2827,7 @@ const line1NDataAndata = [
   { name: "Parente", offset: 30 },
   { name: "Scala/Parente", offset: 35 },
   { name: "Scala/SS. Ascolese", offset: 39 },
-  { name: "Alessandri", offset: 42 }
+  { name: "Ple. Alessandri", offset: 42 }
 ];
 
 const line1NDataRitorno = [];
@@ -2832,7 +2891,7 @@ function loadTrip1N(startTime) {
 
 function toggleLine1NDirection() {
   line1NDirection = (line1NDirection === "andata") ? "ritorno" : "andata";
-  document.getElementById("line1N-subtitle").innerText = line1NDirection === "andata" ? "Sardella ➔ Alessandri" : "Alessandri ➔ Sardella";
+  document.getElementById("line1N-subtitle").innerText = line1NDirection === "andata" ? "Sardella ➔ Ple. Alessandri" : "Ple. Alessandri ➔ Sardella";
   renderLine1NDepartures();
 }
 
@@ -3325,7 +3384,7 @@ busContainer.appendChild(divider);
 
 const b1N = document.createElement("button");
 b1N.className = "line night active";
-b1N.innerHTML = `Linea 1N<span>Sardella ⇄ Alessandri</span>`;
+b1N.innerHTML = `Linea 1N<span>Sardella ⇄ Ple. Alessandri</span>`;
 b1N.onclick = () => showLine1N();
 busContainer.appendChild(b1N);
 
@@ -3640,8 +3699,8 @@ const ALL_ROUTES = [
   { line: "20", label: "Linea 20", dir: "Areoporto Ninuccia Scala ➔ Ple. Alessandri", type: "bus", stops: line20DataRitorno, sched: { feriale: line20Orari.feriale.ritorno, sabato: line20Orari.feriale.ritorno, festivo: line20Orari.festivo.ritorno } },
 
   // Linee notturne
-  { line: "1N", label: "Linea 1N", dir: "Sardella ➔ Alessandri", type: "night", stops: line1NDataAndata, sched: { feriale: line1NOrari.feriale.andata, sabato: line1NOrari.feriale.andata, festivo: line1NOrari.festivo.andata } },
-  { line: "1N", label: "Linea 1N", dir: "Alessandri ➔ Sardella", type: "night", stops: line1NDataRitorno, sched: { feriale: line1NOrari.feriale.ritorno, sabato: line1NOrari.feriale.ritorno, festivo: line1NOrari.festivo.ritorno } },
+  { line: "1N", label: "Linea 1N", dir: "Sardella ➔ Ple. Alessandri", type: "night", stops: line1NDataAndata, sched: { feriale: line1NOrari.feriale.andata, sabato: line1NOrari.feriale.andata, festivo: line1NOrari.festivo.andata } },
+  { line: "1N", label: "Linea 1N", dir: "Ple. Alessandri ➔ Sardella", type: "night", stops: line1NDataRitorno, sched: { feriale: line1NOrari.feriale.ritorno, sabato: line1NOrari.feriale.ritorno, festivo: line1NOrari.festivo.ritorno } },
 
   { line: "5N", label: "Linea 5N", dir: "Vannucchi ➔ Miyano", type: "night", stops: line5NDataAndata, sched: { feriale: line5NOrari.feriale.andata, sabato: line5NOrari.feriale.andata, festivo: line5NOrari.festivo.andata } },
   { line: "5N", label: "Linea 5N", dir: "Miyano ➔ Vannucchi", type: "night", stops: line5NDataRitorno, sched: { feriale: line5NOrari.feriale.ritorno, sabato: line5NOrari.feriale.ritorno, festivo: line5NOrari.festivo.ritorno } },
@@ -3844,13 +3903,16 @@ function computeFermataArrivals(stopName, refTime) {
       times.forEach(dep => {
         const arrivalTime = addMinutes(dep, stop.offset);
         const diff = (timeToMins(arrivalTime) - refMins + 1440) % 1440;
-        out.push({ ri, line: route.line, type: route.type, dest, circ, arrivalTime, diff });
+        out.push({ ri, dep, line: route.line, type: route.type, dest, circ, arrivalTime, diff });
       });
     });
   });
   out.sort((a, b) => a.diff - b.diff);
   return out;
 }
+
+// Elenco arrivi attualmente mostrato (con indice), per aprire il dettaglio corsa al click
+let fermataCurrentList = [];
 
 /* ---------- Render ---------- */
 function renderFermataArrivi() {
@@ -3916,13 +3978,69 @@ function renderFermataArrivi() {
 
   // --- Risultati ---
   const list = all.filter(a => (!fermataLine || a.line === fermataLine) && (!fermataDir || a.dest === fermataDir));
-  fermataResultsEl.innerHTML = list.map(a => `
-    <div class="arr-row">
+  fermataCurrentList = list;
+  fermataResultsEl.innerHTML = list.map((a, i) => `
+    <div class="arr-row" data-i="${i}" role="button" tabindex="0" aria-label="Vedi tutte le fermate di questa corsa">
       ${lineDotHTML(a.line, a.type)}
       <div class="arr-dir"><i>${a.circ ? "↻" : "➔"}</i> ${fsEsc(a.dest)}</div>
       <div class="arr-time"><b>${a.arrivalTime}</b><span class="${a.diff <= 5 ? "soon" : ""}">${waitLabel(a.diff)}</span></div>
     </div>`).join("");
 }
+
+// Click (o tastiera) su una riga -> apre il dettaglio della corsa con tutte le fermate
+fermataResultsEl.addEventListener("click", e => {
+  const row = e.target.closest(".arr-row");
+  if (row) openTripDetail(Number(row.dataset.i));
+});
+fermataResultsEl.addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const row = e.target.closest(".arr-row");
+  if (row) { e.preventDefault(); openTripDetail(Number(row.dataset.i)); }
+});
+
+/* ---------- Dettaglio corsa (tutte le fermate) ---------- */
+const tripOverlayEl = document.getElementById("trip-overlay");
+const tripBadgeEl = document.getElementById("trip-badge");
+const tripTitleEl = document.getElementById("trip-title");
+const tripSubEl = document.getElementById("trip-sub");
+const tripBodyEl = document.getElementById("trip-body");
+
+function openTripDetail(i) {
+  const a = fermataCurrentList[i];
+  if (!a) return;
+  const route = ALL_ROUTES[a.ri];
+  const c = lineColors(a.line, a.type);
+
+  tripBadgeEl.innerHTML = lineDotHTML(a.line, a.type);
+  tripTitleEl.innerText = (a.circ ? "↻ " : "") + route.dir;
+  const dayLabel = { feriale: "Feriale", sabato: "Sabato", festivo: "Festivi" }[fermataDayType] || "";
+  tripSubEl.innerText = `Partenza ${a.dep} · ${dayLabel}`;
+
+  tripBodyEl.innerHTML = route.stops.map(s => {
+    const t = addMinutes(a.dep, s.offset);
+    const isCurrent = s.name === fermataSelected;
+    return `<div class="trip-stop${isCurrent ? " current" : ""}" style="--c:${c.bg}">
+      <div class="ts-line"><span class="ts-dot"></span></div>
+      <div class="ts-name">${fsEsc(s.name)}</div>
+      <div class="ts-time">${t}</div>
+    </div>`;
+  }).join("");
+
+  tripOverlayEl.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+function closeTripDetail() {
+  tripOverlayEl.classList.add("hidden");
+  document.body.style.overflow = "";
+}
+
+tripOverlayEl.addEventListener("click", e => {
+  if (e.target === tripOverlayEl) closeTripDetail();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && !tripOverlayEl.classList.contains("hidden")) closeTripDetail();
+});
 
 // Click sui filtri (delegato)
 fermataFiltersEl.addEventListener("click", e => {
@@ -3950,5 +4068,4 @@ function showFermate() {
 </script>
 </body>
 </html>
-
 
