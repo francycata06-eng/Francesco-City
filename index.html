@@ -251,7 +251,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <body>
 <header><h1>🚌 Trasporti di Francesco City</h1><p>Rete del trasporto pubblico</p></header>
 <main>
-<div id="home-tip" style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 14</b>, <b>Linea 15</b>, <b>Linea 16</b>, <b>Linea 17</b>, <b>Linea 18</b>, <b>Linea 19</b>, <b>Linea 20</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
+<div id="home-tip" style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 2px 8px #0001;font-size:14px">💡 Tocca una linea per aprirla. Disponibili: <b>Linea 2</b>, <b>Linea 3</b>, <b>Linea 4</b>, <b>Linea 5 (5F)</b>, <b>Linea 6</b>, <b>Linea 7</b>, <b>Linea 8</b>, <b>Linea 10</b>, <b>Linea 11</b>, <b>Linea 12</b>, <b>Linea 13</b>, <b>Linea 14</b>, <b>Linea 15</b>, <b>Linea 16</b>, <b>Linea 17</b>, <b>Linea 18</b>, <b>Linea 19</b>, <b>Linea 20</b>, <b>Linea 21</b>, <b>Linea 22</b>, <b>Linea 1N</b>, <b>Linea 5N</b>, <b>Linea 8N</b>, <b>Linea 9N</b>, <b>Tram T2</b> e <b>Tram T3</b>.</div>
 
 <button id="home-fermata-btn" onclick="showFermate()" style="display:block;width:100%;background:white;border:0;border-radius:14px;padding:16px;margin-bottom:20px;box-shadow:0 2px 8px #0001;font-size:16px;font-weight:800;color:#16834a;cursor:pointer;text-align:left">🔎 Cerca per fermata<span style="display:block;font-weight:500;font-size:13px;color:#68736d;margin-top:4px">Vedi tutti i prossimi arrivi di ogni linea in una fermata</span></button>
 
@@ -840,6 +840,66 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     <div class="notice">
       <h4>📌 Bacheca notizie Linea 20</h4>
       <span>5/9/1 : Istituzione linea 20 tra Ple. Alessandri e Areoporto Ninuccia Scala</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 21 -->
+<section id="line21" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 21</h2><div id="line21-subtitle">Vannucchi ➔ P.za Esposito/Withborn</div></div><div class="badge bus">21</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn" onclick="toggleLine21Direction()">🔄 Cambia Direzione</button>
+    <h3 id="line21-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line21-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-21" class="switch-btn active" onclick="setLine21DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-21" class="switch-btn" onclick="setLine21DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line21-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 21</h4>
+      <span>18/9/1 : Attivazione linea 21 tra Vannucchi e P.za Esposito.</span>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- SEZIONE LINEA 22 -->
+<section id="line22" class="hidden">
+<button class="back" onclick="showHome()">← Tutte le linee</button>
+<div class="card">
+<div class="route"><div><h2 style="margin:0">Linea 22</h2><div id="line22-subtitle">Malacrino ➔ P.za Fioravanti</div></div><div class="badge bus">22</div></div>
+
+<div class="line-content">
+  <div>
+    <button class="control-btn" onclick="toggleLine22Direction()">🔄 Cambia Direzione</button>
+    <h3 id="line22-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
+    <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
+    <tbody id="line22-stops"></tbody></table>
+  </div>
+  <div>
+    <div class="switch-container">
+      <button id="btn-feriale-22" class="switch-btn active" onclick="setLine22DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+      <button id="btn-festivo-22" class="switch-btn" onclick="setLine22DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
+    <div id="line22-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    
+    <div class="notice">
+      <h4>📌 Bacheca notizie Linea 22</h4>
+      <span>21/9/1 : Attivazione linea 22 tra Malacrino e P.za Fioravanti</span>
     </div>
   </div>
 </div>
@@ -1695,6 +1755,201 @@ function setLine20DayType(type) {
   renderLine20Departures();
 }
 
+/* ================= LINEA 21 ================= */
+const line21DataAndata = [
+  { name: "Vannucchi", offset: 0 },
+  { name: "Stz. Vesorabro", offset: 10 },
+  { name: "Gubinelli", offset: 18 },
+  { name: "Pepe/Vannucchi", offset: 25 },
+  { name: "Pavone", offset: 33 },
+  { name: "SS. Ascolese/SS. Dell'Annunziata", offset: 47 },
+  { name: "SS. Dell'Annunziata/SS. Ascolese", offset: 50 },
+  { name: "SS. Dell'Annunziata/Stz. Polzoni (B)", offset: 61 },
+  { name: "SS. Dell'Annunziata/Stz. Matsubara (C)", offset: 65 },
+  { name: "Paolini Montero/Veronese", offset: 85 },
+  { name: "Paolini Montero/Camarca", offset: 90 },
+  { name: "Paolini Montero", offset: 98 },
+  { name: "P.za Esposito/Withborn", offset: 105 }
+];
+
+const line21DataRitorno = [];
+let currentOffset21 = 0;
+const reversedRaw21 = [...line21DataAndata].reverse();
+
+for (let i = 0; i < reversedRaw21.length; i++) {
+  if (i === 0) {
+    line21DataRitorno.push({ name: reversedRaw21[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line21DataAndata.find(s => s.name === reversedRaw21[i-1].name).offset;
+    const currOriginalOffset = line21DataAndata.find(s => s.name === reversedRaw21[i].name).offset;
+    currentOffset21 += Math.abs(prevOriginalOffset - currOriginalOffset);
+    line21DataRitorno.push({ name: reversedRaw21[i].name, offset: currentOffset21 });
+  }
+}
+
+// Feriali e festivi identici: ogni 1h20 (andata 07:00-19:00, ritorno 08:50-20:50)
+const line21Orari = {
+  feriale: {
+    andata: ["05:00", "07:00", "08:20", "09:40", "11:00", "12:20", "13:40", "15:00", "16:20", "17:40", "19:00", "20:30", "22:10"],
+    ritorno: ["06:50", "08:50", "10:10", "11:30", "12:50", "14:10", "15:30", "16:50", "18:10", "19:30", "20:50", "22:20", "00:00"]
+  },
+  festivo: {
+    andata: ["05:00", "07:00", "08:20", "09:40", "11:00", "12:20", "13:40", "15:00", "16:20", "17:40", "19:00", "20:30", "22:10"],
+    ritorno: ["06:50", "08:50", "10:10", "11:30", "12:50", "14:10", "15:30", "16:50", "18:10", "19:30", "20:50", "22:20", "00:00"]
+  }
+};
+
+let line21Direction = "andata";
+let line21DayType = "feriale";
+
+function renderLine21Departures() {
+  const depContainer = document.getElementById("line21-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line21Orari[line21DayType][line21Direction];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip21(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip21(currentDepartures[0]);
+  }
+}
+
+function loadTrip21(startTime) {
+  const currentData = line21Direction === "andata" ? line21DataAndata : line21DataRitorno;
+  document.getElementById("line21-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line21-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line21-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function toggleLine21Direction() {
+  line21Direction = (line21Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("line21-subtitle").innerText = line21Direction === "andata" ? "Vannucchi ➔ P.za Esposito/Withborn" : "P.za Esposito/Withborn ➔ Vannucchi";
+  renderLine21Departures();
+}
+
+function setLine21DayType(type) {
+  line21DayType = type;
+  document.getElementById("btn-feriale-21").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-21").classList.toggle("active", type === 'festivo');
+  renderLine21Departures();
+}
+
+/* ================= LINEA 22 ================= */
+// Nota: "Colecchia/Civico 6" compare due volte all'andata (min 24 e min 64): la corsa ci passa due volte.
+const line22DataAndata = [
+  { name: "Malacrino", offset: 0 },
+  { name: "Malacario", offset: 4 },
+  { name: "Colecchia/Civico 17", offset: 10 },
+  { name: "Colecchia/Civico 15", offset: 15 },
+  { name: "Colecchia/Serban", offset: 20 },
+  { name: "Colecchia/Civico 6", offset: 24 },
+  { name: "Paolini Montero/SS. Moscaritolo", offset: 33 },
+  { name: "Veronese/Paolini Montero", offset: 38 },
+  { name: "Veronese/Grasselli", offset: 45 },
+  { name: "Veronese/Civico 52", offset: 52 },
+  { name: "Veronese/Colecchia", offset: 58 },
+  { name: "Colecchia/Civico 6", offset: 64 },
+  { name: "Serban/Colecchia", offset: 69 },
+  { name: "Serban", offset: 73 },
+  { name: "Serban/Migneco Bormiani", offset: 76 },
+  { name: "Serban/Gangemi", offset: 82 },
+  { name: "Pasqualoni/Camarca", offset: 87 },
+  { name: "Pasqualoni/Civico 24", offset: 94 },
+  { name: "Pasqualoni/Civico 42", offset: 101 },
+  { name: "Pasqualoni/Morganti", offset: 107 },
+  { name: "Piacentini", offset: 112 },
+  { name: "Ricciardi/Piacentini", offset: 120 },
+  { name: "P.za Fioravanti", offset: 125 }
+];
+
+// Ritorno: dopo Serban/Colecchia (min 56) salta il giro centrale e riprende da Colecchia/Serban (min 60)
+const line22DataRitorno = [
+  { name: "P.za Fioravanti", offset: 0 },
+  { name: "Ricciardi/Piacentini", offset: 5 },
+  { name: "Piacentini", offset: 13 },
+  { name: "Pasqualoni/Morganti", offset: 18 },
+  { name: "Pasqualoni/Civico 42", offset: 24 },
+  { name: "Pasqualoni/Civico 24", offset: 31 },
+  { name: "Pasqualoni/Camarca", offset: 38 },
+  { name: "Serban/Gangemi", offset: 43 },
+  { name: "Serban/Migneco Bormiani", offset: 49 },
+  { name: "Serban", offset: 52 },
+  { name: "Serban/Colecchia", offset: 56 },
+  { name: "Colecchia/Serban", offset: 60 },
+  { name: "Colecchia/Civico 15", offset: 65 },
+  { name: "Colecchia/Civico 17", offset: 70 },
+  { name: "Malacario", offset: 76 },
+  { name: "Malacrino", offset: 80 }
+];
+
+const line22Orari = {
+  feriale: {
+    andata: ["05:00", "09:10", "13:20", "17:30", "21:30"],
+    ritorno: ["07:30", "11:40", "15:50", "20:00", "23:40"]
+  },
+  festivo: {
+    andata: ["06:00", "11:00", "17:00"],
+    ritorno: ["09:00", "14:00", "20:00"]
+  }
+};
+
+let line22Direction = "andata";
+let line22DayType = "feriale";
+
+function renderLine22Departures() {
+  const depContainer = document.getElementById("line22-departures");
+  depContainer.innerHTML = "";
+  const currentDepartures = line22Orari[line22DayType][line22Direction];
+  
+  currentDepartures.forEach(time => {
+    const btn = document.createElement("div");
+    btn.className = "time-btn";
+    btn.innerText = time;
+    btn.onclick = () => loadTrip22(time);
+    depContainer.appendChild(btn);
+  });
+
+  if (currentDepartures.length > 0) {
+    loadTrip22(currentDepartures[0]);
+  }
+}
+
+function loadTrip22(startTime) {
+  const currentData = line22Direction === "andata" ? line22DataAndata : line22DataRitorno;
+  document.getElementById("line22-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
+  document.getElementById("line22-stops").innerHTML = currentData.map(s => 
+    `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
+  ).join("");
+  
+  document.querySelectorAll("#line22-departures .time-btn").forEach(btn => {
+    btn.classList.toggle("selected-bus", btn.innerText === startTime);
+  });
+}
+
+function toggleLine22Direction() {
+  line22Direction = (line22Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("line22-subtitle").innerText = line22Direction === "andata" ? "Malacrino ➔ P.za Fioravanti" : "P.za Fioravanti ➔ Malacrino";
+  renderLine22Departures();
+}
+
+function setLine22DayType(type) {
+  line22DayType = type;
+  document.getElementById("btn-feriale-22").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-festivo-22").classList.toggle("active", type === 'festivo');
+  renderLine22Departures();
+}
+
 /* ================= LINEA 17 ================= */
 const line17DataAndata = [
   { name: "Lelli Chiesa", offset: 0 },
@@ -1860,7 +2115,7 @@ const line2DataAndata = [
   { name: "Wright", offset: 15 },
   { name: "Catapano/Prati Fioriti", offset: 20 },
   { name: "Grasso", offset: 24 },
-  { name: "Bulgarelli/Vicentini", offset: 28 },
+  { name: "Bulgarelli", offset: 28 },
   { name: "Novelli/Corbo", offset: 31 },
   { name: "Corbo/Crifò", offset: 35 },
   { name: "Pucello", offset: 40 },
@@ -2032,7 +2287,7 @@ const line3DataAndata = [
   { name: "Parente", offset: 20 },
   { name: "Scala/Parente", offset: 24 },
   { name: "SS. Ascolese/Caiazzo", offset: 30 },
-  { name: "SS. Ascolese/Dell'Annunziata", offset: 42 },
+  { name: "SS. Ascolese/SS. Dell'Annunziata", offset: 42 },
   { name: "Mori/Edogawa", offset: 51 },
   { name: "Edogawa", offset: 53 }
 ];
@@ -2596,7 +2851,7 @@ const line10DataAndata = [
   { name: "Baietti", offset: 25 },
   { name: "De Lellis/Novelli", offset: 31 },
   { name: "SS. Ascolese/Caiazzo", offset: 38 },
-  { name: "SS. Ascolese/Dell'Annunziata", offset: 48 },
+  { name: "SS. Ascolese/SS. Dell'Annunziata", offset: 48 },
   { name: "Hannon/Ascolese", offset: 54 },
   { name: "Hannon/Bennet", offset: 59 },
   { name: "Vance", offset: 66 },
@@ -3301,9 +3556,9 @@ function renderT3Departures() {
 
 /* ================= INIZIALIZZAZIONE HOME ================= */
 const busContainer = document.getElementById("bus-lines");
-for(let i=1; i<=22; i++){
+for(let i=1; i<=23; i++){
   const b = document.createElement("button");
-  const isActive = (i >= 1 && i <= 8 || i === 10 || i === 11 || i === 12 || i === 13 || i === 14 || i === 15 || i === 16 || i === 17 || i === 18 || i === 19 || i === 20);
+  const isActive = (i >= 1 && i <= 8 || i === 10 || i === 11 || i === 12 || i === 13 || i === 14 || i === 15 || i === 16 || i === 17 || i === 18 || i === 19 || i === 20 || i === 21 || i === 22);
   b.className = "line bus" + (isActive ? " active" : "");
   
   if (i === 9) {
@@ -3348,6 +3603,10 @@ for(let i=1; i<=22; i++){
     b.innerHTML = `Linea 19<span>Circolare Barbuto</span>`;
   } else if (i === 20) {
     b.innerHTML = `Linea 20<span>Ple. Alessandri ⇄ Areoporto Ninuccia Scala</span>`;
+  } else if (i === 21) {
+    b.innerHTML = `Linea 21<span>Vannucchi ⇄ P.za Esposito/Withborn</span>`;
+  } else if (i === 22) {
+    b.innerHTML = `Linea 22<span>Malacrino ⇄ P.za Fioravanti</span>`;
   } else {
     b.innerHTML = `Linea ${i}<span>In costruzione</span>`;
   }
@@ -3373,6 +3632,8 @@ for(let i=1; i<=22; i++){
     if(i === 18) showLine18();
     if(i === 19) showLine19();
     if(i === 20) showLine20();
+    if(i === 21) showLine21();
+    if(i === 22) showLine22();
   };
   busContainer.appendChild(b);
 }
@@ -3525,6 +3786,16 @@ function showLine20(){
   document.getElementById("line20").classList.remove("hidden");
 }
 
+function showLine21(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line21").classList.remove("hidden");
+}
+
+function showLine22(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("line22").classList.remove("hidden");
+}
+
 function showLine1N(){
   document.getElementById("home").classList.add("hidden");
   document.getElementById("line1N").classList.remove("hidden");
@@ -3582,6 +3853,8 @@ function showHome(){
   document.getElementById("line18").classList.add("hidden");
   document.getElementById("line19").classList.add("hidden");
   document.getElementById("line20").classList.add("hidden");
+  document.getElementById("line21").classList.add("hidden");
+  document.getElementById("line22").classList.add("hidden");
   document.getElementById("line1N").classList.add("hidden");
   document.getElementById("line5N").classList.add("hidden");
   document.getElementById("line8N").classList.add("hidden");
@@ -3612,6 +3885,8 @@ renderLine17Departures();
 renderLine18Departures();
 renderLine19Departures();
 renderLine20Departures();
+renderLine21Departures();
+renderLine22Departures();
 renderLine1NDepartures();
 renderLine5NDepartures();
 renderLine8NDepartures();
@@ -3697,6 +3972,14 @@ const ALL_ROUTES = [
   // Linea 20
   { line: "20", label: "Linea 20", dir: "Ple. Alessandri ➔ Areoporto Ninuccia Scala", type: "bus", stops: line20DataAndata, sched: { feriale: line20Orari.feriale.andata, sabato: line20Orari.feriale.andata, festivo: line20Orari.festivo.andata } },
   { line: "20", label: "Linea 20", dir: "Areoporto Ninuccia Scala ➔ Ple. Alessandri", type: "bus", stops: line20DataRitorno, sched: { feriale: line20Orari.feriale.ritorno, sabato: line20Orari.feriale.ritorno, festivo: line20Orari.festivo.ritorno } },
+
+  // Linea 21
+  { line: "21", label: "Linea 21", dir: "Vannucchi ➔ P.za Esposito/Withborn", type: "bus", stops: line21DataAndata, sched: { feriale: line21Orari.feriale.andata, sabato: line21Orari.feriale.andata, festivo: line21Orari.festivo.andata } },
+  { line: "21", label: "Linea 21", dir: "P.za Esposito/Withborn ➔ Vannucchi", type: "bus", stops: line21DataRitorno, sched: { feriale: line21Orari.feriale.ritorno, sabato: line21Orari.feriale.ritorno, festivo: line21Orari.festivo.ritorno } },
+
+  // Linea 22
+  { line: "22", label: "Linea 22", dir: "Malacrino ➔ P.za Fioravanti", type: "bus", stops: line22DataAndata, sched: { feriale: line22Orari.feriale.andata, sabato: line22Orari.feriale.andata, festivo: line22Orari.festivo.andata } },
+  { line: "22", label: "Linea 22", dir: "P.za Fioravanti ➔ Malacrino", type: "bus", stops: line22DataRitorno, sched: { feriale: line22Orari.feriale.ritorno, sabato: line22Orari.feriale.ritorno, festivo: line22Orari.festivo.ritorno } },
 
   // Linee notturne
   { line: "1N", label: "Linea 1N", dir: "Sardella ➔ Ple. Alessandri", type: "night", stops: line1NDataAndata, sched: { feriale: line1NOrari.feriale.andata, sabato: line1NOrari.feriale.andata, festivo: line1NOrari.festivo.andata } },
