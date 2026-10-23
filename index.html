@@ -1098,10 +1098,11 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <section id="tramT3" class="hidden">
 <button class="back" onclick="showHome()" style="color:#ff4c00">← Tutte le linee</button>
 <div class="card">
-<div class="route"><div><h2 style="margin:0">Tram T3</h2><div>Circolare Stab. De Felice</div></div><div class="badge tram">T3</div></div>
+<div class="route"><div><h2 style="margin:0">Tram T3</h2><div id="t3-subtitle">Ple. Fusco ➔ Oliviero</div></div><div class="badge tram">T3</div></div>
 
 <div class="line-content">
   <div>
+    <button class="control-btn tram-btn" onclick="toggleT3Direction()">🔄 Cambia Direzione</button>
     <h3 id="t3-selected-title" style="margin:0 0 10px; font-size:16px; color:#ff4c00;">Fermate per la partenza selezionata</h3>
     <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
     <tbody id="t3-stops"></tbody></table>
@@ -1112,7 +1113,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
     
     <div class="notice">
       <h4>📌 Bacheca notizie Tram T3</h4>
-      <span>Linea circolare con partenze cadenzate ogni 30 minuti da Stab. De Felice. Tocca una partenza per consultare gli orari.</span>
+      <span>14/6/1: istituzione Tram 3, per sostituzione della linea 9, circolare per Fusco/Sta. De Felice.<br>29/9/1: modifica percorso linea T3. La linea ora viene prolungata per via Amada, via Oliviero ove effettua capolinea, dunque la linea non è più circolare.</span>
     </div>
   </div>
 </div>
@@ -3508,27 +3509,44 @@ function toggleT2Direction() {
 }
 
 /* ================= TRAM T3 ================= */
-const t3StopsData = [
-  { name: "Stab. De Felice", offset: 0 },
-  { name: "Abbate/Cocciolillo", offset: 4 },
-  { name: "Feliziani/Barchi", offset: 5 },
+// Dal 29/9/1 la linea non è più circolare: prolungata su via Amada fino a Oliviero (capolinea)
+const t3DataAndata = [
+  { name: "Ple. Fusco", offset: 0 },
+  { name: "Abbate/Cocciolillo", offset: 3 },
   { name: "Frascà/Cerisola", offset: 10 },
-  { name: "Frascà", offset: 16 },
-  { name: "Frascà/Tatsumi", offset: 20 },
-  { name: "Yamagishi/Amada", offset: 24 },
-  { name: "Frascà/Tatsumi", offset: 29 },
-  { name: "Frascà", offset: 34 },
-  { name: "Frascà/Cerisola", offset: 39 },
-  { name: "Feliziani/Barchi", offset: 45 },
-  { name: "Abbate/Cocciolillo", offset: 48 },
-  { name: "Stab. De Felice", offset: 52 }
+  { name: "Frascà/Fearmire", offset: 18 },
+  { name: "Frascà/Tatsumi", offset: 23 },
+  { name: "Yamagishi/Amada", offset: 29 },
+  { name: "Amada/Morooka", offset: 33 },
+  { name: "Amada/Dojima", offset: 39 },
+  { name: "Amada/Oliviero", offset: 44 },
+  { name: "Oliviero", offset: 50 }
 ];
 
-const t3Departures = generateCadence("06:00", "23:30", 30);
+const t3DataRitorno = [];
+let currentOffsetT3 = 0;
+const reversedRawT3 = [...t3DataAndata].reverse();
+
+for (let i = 0; i < reversedRawT3.length; i++) {
+  if (i === 0) {
+    t3DataRitorno.push({ name: reversedRawT3[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = t3DataAndata.find(s => s.name === reversedRawT3[i-1].name).offset;
+    const currOriginalOffset = t3DataAndata.find(s => s.name === reversedRawT3[i].name).offset;
+    currentOffsetT3 += Math.abs(prevOriginalOffset - currOriginalOffset);
+    t3DataRitorno.push({ name: reversedRawT3[i].name, offset: currentOffsetT3 });
+  }
+}
+
+const t3DeparturesAndata = ["06:00", "06:40", "07:20", "08:00", "08:40", "09:30", "10:20", "11:10", "12:00", "12:50", "13:40", "14:30", "15:20", "16:10", "16:50", "17:30", "18:10", "18:50", "19:30", "20:10", "21:00", "21:50", "22:40", "23:30"];
+const t3DeparturesRitorno = ["07:10", "07:50", "08:30", "09:10", "09:50", "10:40", "11:30", "12:20", "13:10", "14:00", "14:50", "15:40", "16:30", "17:20", "18:00", "18:40", "19:20", "20:00", "20:40", "21:20", "22:10", "23:00", "23:50", "00:30"];
+
+let t3Direction = "andata";
 
 function loadTripT3(startTime) {
+  const currentData = t3Direction === "andata" ? t3DataAndata : t3DataRitorno;
   document.getElementById("t3-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
-  document.getElementById("t3-stops").innerHTML = t3StopsData.map(s => 
+  document.getElementById("t3-stops").innerHTML = currentData.map(s => 
     `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
   ).join("");
   
@@ -3540,8 +3558,9 @@ function loadTripT3(startTime) {
 function renderT3Departures() {
   const depContainer = document.getElementById("t3-departures");
   depContainer.innerHTML = "";
+  const currentDepartures = t3Direction === "andata" ? t3DeparturesAndata : t3DeparturesRitorno;
   
-  t3Departures.forEach(time => {
+  currentDepartures.forEach(time => {
     const btn = document.createElement("div");
     btn.className = "time-btn";
     btn.innerText = time;
@@ -3549,9 +3568,15 @@ function renderT3Departures() {
     depContainer.appendChild(btn);
   });
 
-  if (t3Departures.length > 0) {
-    loadTripT3(t3Departures[0]);
+  if (currentDepartures.length > 0) {
+    loadTripT3(currentDepartures[0]);
   }
+}
+
+function toggleT3Direction() {
+  t3Direction = (t3Direction === "andata") ? "ritorno" : "andata";
+  document.getElementById("t3-subtitle").innerText = t3Direction === "andata" ? "Ple. Fusco ➔ Oliviero" : "Oliviero ➔ Ple. Fusco";
+  renderT3Departures();
 }
 
 /* ================= INIZIALIZZAZIONE HOME ================= */
@@ -3680,7 +3705,7 @@ for(let i=1; i<=3; i++){
     b.onclick = () => showTramT2();
   } else if (i === 3) {
     b.className = "line tram active";
-    b.innerHTML = `Tram T3<span>Circolare Stab. De Felice</span>`;
+    b.innerHTML = `Tram T3<span>Ple. Fusco ⇄ Oliviero</span>`;
     b.onclick = () => showTramT3();
   }
   tramContainer.appendChild(b);
@@ -3997,7 +4022,8 @@ const ALL_ROUTES = [
   // Tram
   { line: "T2", label: "Tram T2", dir: "Furuya (MB) ➔ Ple. Scott", type: "tram", stops: t2DataAndata, sched: { feriale: t2Orari.andata, sabato: t2Orari.andata, festivo: t2Orari.andata } },
   { line: "T2", label: "Tram T2", dir: "Ple. Scott ➔ Furuya (MB)", type: "tram", stops: t2DataRitorno, sched: { feriale: t2Orari.ritorno, sabato: t2Orari.ritorno, festivo: t2Orari.ritorno } },
-  { line: "T3", label: "Tram T3", dir: "Circolare Stab. De Felice", type: "tram", stops: t3StopsData, sched: { feriale: t3Departures, sabato: t3Departures, festivo: t3Departures } }
+  { line: "T3", label: "Tram T3", dir: "Ple. Fusco ➔ Oliviero", type: "tram", stops: t3DataAndata, sched: { feriale: t3DeparturesAndata, sabato: t3DeparturesAndata, festivo: t3DeparturesAndata } },
+  { line: "T3", label: "Tram T3", dir: "Oliviero ➔ Ple. Fusco", type: "tram", stops: t3DataRitorno, sched: { feriale: t3DeparturesRitorno, sabato: t3DeparturesRitorno, festivo: t3DeparturesRitorno } }
 ];
 
 /* ---------- Helper ricerca fermate ---------- */
@@ -4351,4 +4377,3 @@ function showFermate() {
 </script>
 </body>
 </html>
-
