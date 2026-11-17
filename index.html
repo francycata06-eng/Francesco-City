@@ -731,25 +731,31 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 8px
 <section id="line19" class="hidden">
 <button class="back" onclick="showHome()">← Tutte le linee</button>
 <div class="card">
-<div class="route"><div><h2 style="margin:0">Linea 19</h2><div>Circolare Barbuto</div></div><div class="badge bus">19</div></div>
+<div class="route"><div><h2 style="margin:0">Linea 19</h2><div id="line19-subtitle">Barbuto ➔ Panzieri</div></div><div id="line19-badge" class="badge bus">19</div></div>
 
 <div class="line-content">
   <div>
+    <button id="line19-dir-btn" class="control-btn" onclick="toggleLine19Direction()">🔄 Cambia Direzione</button>
     <h3 id="line19-selected-title" style="margin:0 0 10px; font-size:16px; color:#16834a;">Fermate per la partenza selezionata</h3>
     <table><thead><tr><th>Fermata</th><th>Arrivo</th></tr></thead>
     <tbody id="line19-stops"></tbody></table>
   </div>
   <div>
-    <div class="switch-container">
-      <button id="btn-feriale-19" class="switch-btn active" onclick="setLine19DayType('feriale')">📅 Feriale (Lun-Sab)</button>
+    <div class="switch-container" style="display:flex; gap:6px;">
+      <button id="btn-feriale-19" class="switch-btn active" onclick="setLine19DayType('feriale')">📅 Lun-Ven</button>
+      <button id="btn-sabato-19" class="switch-btn" onclick="setLine19DayType('sabato')">🔵 Sabato</button>
       <button id="btn-festivo-19" class="switch-btn" onclick="setLine19DayType('festivo')">☀️ Festivi</button>
+    </div>
+    <div class="switch-container" style="display:flex; gap:6px; margin-top:8px;">
+      <button id="btn-tipo-ordinaria-19" class="switch-btn active" onclick="setLine19RouteType('ordinaria')">Normale</button>
+      <button id="btn-tipo-scolastica-19" class="switch-btn" onclick="setLine19RouteType('scolastica')">🎒 Scolastica</button>
     </div>
     <h3 style="margin:0 0 10px">Partenze dal capolinea</h3>
     <div id="line19-departures" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
     
     <div class="notice">
       <h4>📌 Bacheca notizie Linea 19</h4>
-      <span>20/8/1 : attivazione linea 19 circolare Barbuto</span>
+      <span>20/8/1 : attivazione linea 19 circolare Barbuto<br>11/10/1: linea 19 prolungata su via Patrignani, via De Luca, ple. Panzieri dove effettua altro capolinea, inoltre viene attivata la deviazione scolastica per la scuola S. Panzieri.</span>
     </div>
   </div>
 </div>
@@ -2045,7 +2051,8 @@ function setLine17DayType(type) {
 }
 
 /* ================= LINEA 19 ================= */
-const line19StopsData = [
+// Dall'11/10/1 la linea non è più circolare: prolungata su via Patrignani, via De Luca fino a Ple. Panzieri (capolinea)
+const line19DataAndata = [
   { name: "Barbuto", offset: 0 },
   { name: "Ciavarella/Menicocci", offset: 3 },
   { name: "Ciavarella/Bellò", offset: 7 },
@@ -2054,27 +2061,93 @@ const line19StopsData = [
   { name: "Lo Torto Pozzo/Tua", offset: 18 },
   { name: "Lo Torto Pozzo/Canuto", offset: 23 },
   { name: "Lo Torto Pozzo/Flanderson", offset: 29 },
-  { name: "Lo Torto Pozzo/Canuto", offset: 37 },
-  { name: "Lo Torto Pozzo/Tua", offset: 42 },
-  { name: "Lo Torto Pozzo/Ciavarella", offset: 47 },
-  { name: "Ciavarella/Torresi", offset: 51 },
-  { name: "Ciavarella/Bellò", offset: 56 },
-  { name: "Ciavarella/Menicocci", offset: 60 },
-  { name: "Barbuto", offset: 64 }
+  { name: "De Luca/Patrignani", offset: 36 },
+  { name: "De Luca/Gabrielli", offset: 43 },
+  { name: "Samà/De Luca", offset: 49 },
+  { name: "Panzieri", offset: 53 }
+];
+
+const line19DataRitorno = [];
+let currentOffset19 = 0;
+const reversedRaw19 = [...line19DataAndata].reverse();
+
+for (let i = 0; i < reversedRaw19.length; i++) {
+  if (i === 0) {
+    line19DataRitorno.push({ name: reversedRaw19[i].name, offset: 0 });
+  } else {
+    const prevOriginalOffset = line19DataAndata.find(s => s.name === reversedRaw19[i-1].name).offset;
+    const currOriginalOffset = line19DataAndata.find(s => s.name === reversedRaw19[i].name).offset;
+    const diff = Math.abs(prevOriginalOffset - currOriginalOffset);
+    currentOffset19 += diff;
+    line19DataRitorno.push({ name: reversedRaw19[i].name, offset: currentOffset19 });
+  }
+}
+
+// Deviazione scolastica (S. Panzieri): andata con giro per la scuola (De Luca/Patrignani toccata due volte)
+const line19DataScolasticaAndata = [
+  { name: "Barbuto", offset: 0 },
+  { name: "Terruzzi/Anghelache", offset: 5 },
+  { name: "C.so Vergnetta", offset: 10 },
+  { name: "Lelli Chiesa", offset: 16 },
+  { name: "Francia/Ursini", offset: 20 },
+  { name: "Francia", offset: 26 },
+  { name: "Procesi/Limongelli", offset: 32 },
+  { name: "Samà/Limongelli", offset: 37 },
+  { name: "Samà/Panzieri", offset: 44 },
+  { name: "Samà/De Luca", offset: 50 },
+  { name: "De Luca/Gabrielli", offset: 56 },
+  { name: "De Luca/Patrignani", offset: 62 },
+  { name: "De Luca/Patrignani", offset: 73 },
+  { name: "De Luca/Gabrielli", offset: 78 },
+  { name: "Samà/De Luca", offset: 83 },
+  { name: "Panzieri", offset: 87 }
+];
+
+// Ritorno scolastico: da Panzieri, poi Samà/Panzieri e così via, saltando le ultime fermate dell'andata
+const line19DataScolasticaRitorno = [
+  { name: "Panzieri", offset: 0 },
+  { name: "Samà/Panzieri", offset: 4 },
+  { name: "Samà/Limongelli", offset: 11 },
+  { name: "Procesi/Limongelli", offset: 16 },
+  { name: "Francia", offset: 22 },
+  { name: "Francia/Ursini", offset: 28 },
+  { name: "Lelli Chiesa", offset: 32 },
+  { name: "C.so Vergnetta", offset: 38 },
+  { name: "Terruzzi/Anghelache", offset: 43 },
+  { name: "Barbuto", offset: 48 }
 ];
 
 const line19Orari = {
-  feriale: ["06:00", "07:20", "08:40", "10:00", "11:20", "12:40", "14:00", "15:20", "16:40", "18:00", "19:20", "20:40", "22:00", "23:40"],
-  festivo: ["06:00", "07:50", "09:40", "11:30", "13:20", "15:10", "17:00", "19:00", "21:00", "23:40"]
+  andata: {
+    // Lun-Ven: tolte le partenze delle 08:40 e delle 12:40 (restano invariate di sabato)
+    feriale: ["06:00", "07:20", "10:00", "11:20", "14:00", "15:20", "16:40", "18:00", "19:20", "20:40", "22:00", "23:40"],
+    sabato: ["06:00", "07:20", "08:40", "10:00", "11:20", "12:40", "14:00", "15:20", "16:40", "18:00", "19:20", "20:40", "22:00", "23:40"],
+    festivo: ["06:00", "07:50", "09:40", "11:30", "13:20", "15:10", "17:00", "19:00", "21:00", "23:40"]
+  },
+  ritorno: {
+    // Lun-Ven: tolte le partenze delle 09:50 e delle 13:50 (restano invariate di sabato)
+    feriale: ["07:10", "08:30", "11:10", "12:30", "15:10", "16:30", "17:50", "19:10", "20:30", "21:50", "23:10", "00:50"],
+    sabato: ["07:10", "08:30", "09:50", "11:10", "12:30", "13:50", "15:10", "16:30", "17:50", "19:10", "20:30", "21:50", "23:10", "00:50"],
+    festivo: ["07:10", "09:00", "10:50", "12:40", "14:30", "16:20", "18:10", "20:10", "22:10", "00:50"]
+  },
+  scolastica: {
+    andata: { feriale: ["08:10", "12:40"], sabato: [], festivo: [] },
+    ritorno: { feriale: ["09:50", "14:40"], sabato: [], festivo: [] }
+  }
 };
 
+let line19Direction = "andata";
 let line19DayType = "feriale";
+let line19RouteType = "ordinaria";
 
 function renderLine19Departures() {
   const depContainer = document.getElementById("line19-departures");
   depContainer.innerHTML = "";
-  const currentDepartures = line19Orari[line19DayType];
-  
+
+  const currentDepartures = line19RouteType === "scolastica"
+    ? (line19Orari.scolastica[line19Direction][line19DayType] || [])
+    : line19Orari[line19Direction][line19DayType];
+
   currentDepartures.forEach(time => {
     const btn = document.createElement("div");
     btn.className = "time-btn";
@@ -2085,24 +2158,67 @@ function renderLine19Departures() {
 
   if (currentDepartures.length > 0) {
     loadTrip19(currentDepartures[0]);
+  } else {
+    document.getElementById("line19-selected-title").innerText = "Nessuna corsa prevista";
+    document.getElementById("line19-stops").innerHTML = `<tr><td colspan="2" style="text-align:center; color:#68736d;">Servizio non attivo in questo giorno</td></tr>`;
   }
 }
 
 function loadTrip19(startTime) {
+  let currentData;
+  if (line19RouteType === "scolastica") {
+    currentData = line19Direction === "andata" ? line19DataScolasticaAndata : line19DataScolasticaRitorno;
+  } else {
+    currentData = line19Direction === "andata" ? line19DataAndata : line19DataRitorno;
+  }
+
   document.getElementById("line19-selected-title").innerText = `Corsa in partenza alle ${startTime}`;
-  document.getElementById("line19-stops").innerHTML = line19StopsData.map(s => 
+  document.getElementById("line19-stops").innerHTML = currentData.map(s =>
     `<tr><td>${s.name}</td><td><b>${addMinutes(startTime, s.offset)}</b></td></tr>`
   ).join("");
-  
+
   document.querySelectorAll("#line19-departures .time-btn").forEach(btn => {
     btn.classList.toggle("selected-bus", btn.innerText === startTime);
   });
 }
 
+function updateLine19Subtitle() {
+  const suffix = line19RouteType === "scolastica" ? " (Scolastica)" : "";
+  document.getElementById("line19-subtitle").innerText =
+    (line19Direction === "andata" ? "Barbuto ➔ Panzieri" : "Panzieri ➔ Barbuto") + suffix;
+}
+
+function toggleLine19Direction() {
+  line19Direction = (line19Direction === "andata") ? "ritorno" : "andata";
+  updateLine19Subtitle();
+  renderLine19Departures();
+}
+
 function setLine19DayType(type) {
   line19DayType = type;
   document.getElementById("btn-feriale-19").classList.toggle("active", type === 'feriale');
+  document.getElementById("btn-sabato-19").classList.toggle("active", type === 'sabato');
   document.getElementById("btn-festivo-19").classList.toggle("active", type === 'festivo');
+  renderLine19Departures();
+}
+
+function setLine19RouteType(type) {
+  line19RouteType = type;
+  document.getElementById("btn-tipo-ordinaria-19").classList.toggle("active", type === 'ordinaria');
+  document.getElementById("btn-tipo-scolastica-19").classList.toggle("active", type === 'scolastica');
+
+  const badge = document.getElementById("line19-badge");
+  if (type === "scolastica") {
+    badge.innerText = "19S";
+    badge.style.backgroundColor = "#ffff00";
+    badge.style.color = "white";
+  } else {
+    badge.innerText = "19";
+    badge.style.backgroundColor = "#16834a";
+    badge.style.color = "white";
+  }
+
+  updateLine19Subtitle();
   renderLine19Departures();
 }
 
@@ -3625,7 +3741,7 @@ for(let i=1; i<=23; i++){
   } else if (i === 18) {
     b.innerHTML = `Linea 18<span>Circolare Cala di Bratton</span>`;
   } else if (i === 19) {
-    b.innerHTML = `Linea 19<span>Circolare Barbuto</span>`;
+    b.innerHTML = `Linea 19<span>Barbuto ⇄ Panzieri</span>`;
   } else if (i === 20) {
     b.innerHTML = `Linea 20<span>Ple. Alessandri ⇄ Areoporto Ninuccia Scala</span>`;
   } else if (i === 21) {
@@ -3991,8 +4107,11 @@ const ALL_ROUTES = [
   // Linea 18 (circolare, formato con array paralleli)
   { line: "18", label: "Linea 18", dir: "Circolare Cala di Bratton", type: "bus", stops: makeStops(line18Stops, line18Offsets), sched: { feriale: line18Orari.feriale, sabato: line18Orari.feriale, festivo: line18Orari.festivo } },
 
-  // Linea 19 (circolare)
-  { line: "19", label: "Linea 19", dir: "Circolare Barbuto", type: "bus", stops: line19StopsData, sched: { feriale: line19Orari.feriale, sabato: line19Orari.feriale, festivo: line19Orari.festivo } },
+  // Linea 19 (+ 19S scolastica)
+  { line: "19", label: "Linea 19", dir: "Barbuto ➔ Panzieri", type: "bus", stops: line19DataAndata, sched: { feriale: line19Orari.andata.feriale, sabato: line19Orari.andata.sabato, festivo: line19Orari.andata.festivo } },
+  { line: "19", label: "Linea 19", dir: "Panzieri ➔ Barbuto", type: "bus", stops: line19DataRitorno, sched: { feriale: line19Orari.ritorno.feriale, sabato: line19Orari.ritorno.sabato, festivo: line19Orari.ritorno.festivo } },
+  { line: "19S", label: "Linea 19 (Scolastica)", dir: "Barbuto ➔ Panzieri", type: "bus", stops: line19DataScolasticaAndata, sched: { feriale: line19Orari.scolastica.andata.feriale, sabato: line19Orari.scolastica.andata.sabato, festivo: line19Orari.scolastica.andata.festivo } },
+  { line: "19S", label: "Linea 19 (Scolastica)", dir: "Panzieri ➔ Barbuto", type: "bus", stops: line19DataScolasticaRitorno, sched: { feriale: line19Orari.scolastica.ritorno.feriale, sabato: line19Orari.scolastica.ritorno.sabato, festivo: line19Orari.scolastica.ritorno.festivo } },
 
   // Linea 20
   { line: "20", label: "Linea 20", dir: "Ple. Alessandri ➔ Areoporto Ninuccia Scala", type: "bus", stops: line20DataAndata, sched: { feriale: line20Orari.feriale.andata, sabato: line20Orari.feriale.andata, festivo: line20Orari.festivo.andata } },
@@ -4043,7 +4162,7 @@ function routeDest(dir) {
 // Colori delle linee (2S giallo, 3F/5F azzurro: testo scuro per restare leggibile)
 function lineColors(line, type) {
   const SHADOW = "0 0 3px rgba(0,0,0,.55), 0 1px 1px rgba(0,0,0,.35)"; // aiuta il bianco su giallo/azzurro
-  if (line === "2S") return { bg: "#ffff00", fg: "#ffffff", ts: SHADOW };
+  if (line === "2S" || line === "19S") return { bg: "#ffff00", fg: "#ffffff", ts: SHADOW };
   if (line === "3F" || line === "5F") return { bg: "#00ffff", fg: "#ffffff", ts: SHADOW };
   if (type === "night") return { bg: "#351c75", fg: "#ffffff", ts: "none" };
   if (type === "tram") return { bg: "#ff4c00", fg: "#ffffff", ts: "none" };
